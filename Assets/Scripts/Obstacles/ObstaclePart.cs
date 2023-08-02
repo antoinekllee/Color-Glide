@@ -11,7 +11,7 @@ public class ObstaclePart : MonoBehaviour
     private ObjectColour obstacleColour = ObjectColour.Red;
 
     [MustBeAssigned] public ShapeRenderer shape = null;
-    private new Collider2D collider = null;
+    [MustBeAssigned] public new Collider2D collider = null;
 
     private GameManager gameManager = null; 
     private PlayerController playerController = null; 

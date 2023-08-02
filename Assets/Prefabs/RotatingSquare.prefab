@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   shape: {fileID: 4070850332373742535}
+  collider: {fileID: 4343972051169508692}
 --- !u!61 &4343972051169508692
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -353,6 +354,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   shape: {fileID: 7157883042264640266}
+  collider: {fileID: 877487716461479557}
 --- !u!61 &877487716461479557
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -432,7 +434,7 @@ Transform:
   - {fileID: 8890857889010111051}
   - {fileID: 2449806420525114843}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6197653180173822108
 MonoBehaviour:
@@ -612,6 +614,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   shape: {fileID: 6086970027755920939}
+  collider: {fileID: 4330456130041937527}
 --- !u!61 &4330456130041937527
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -811,6 +814,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   shape: {fileID: 4296476718499582253}
+  collider: {fileID: 1303145469363987130}
 --- !u!61 &1303145469363987130
 BoxCollider2D:
   m_ObjectHideFlags: 0

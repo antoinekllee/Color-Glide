@@ -24,5 +24,8 @@ public class LineObstacle : Obstacle
         size = Random.Range(minSize, maxSize);
         Rectangle rectangle = (Rectangle)part.shape;
         rectangle.Width = size;
+
+        BoxCollider2D boxCollider = (BoxCollider2D)part.collider;
+        boxCollider.size = new Vector2 (size, rectangle.Thickness);
     }
 }

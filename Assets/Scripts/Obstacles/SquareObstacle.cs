@@ -22,6 +22,9 @@ public class SquareObstacle : Obstacle
             Rectangle rectangle = (Rectangle)part.shape;
             rectangle.Width = size;
 
+            BoxCollider2D boxCollider = (BoxCollider2D)part.collider;
+            boxCollider.size = new Vector2 (size, rectangle.Thickness);
+
             float offset = (size / 2f) - (rectangle.Thickness / 2f); 
             
             if (part.id == 0)

@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   shape: {fileID: 3734091774643433595}
+  collider: {fileID: 4909992017305070478}
 --- !u!61 &4909992017305070478
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -230,7 +231,7 @@ Transform:
   m_Children:
   - {fileID: 6213949804336907578}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1329063847271322540
 MonoBehaviour:

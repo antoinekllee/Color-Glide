@@ -20,9 +20,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField, PositiveValueOnly] private float colourChangeTime = 0.1f;
     [SerializeField] private Ease colourChangeEase = Ease.InOutSine;
 
-    private float touchTimeStart = 0f; 
-    private float touchTimeFinish = 0f; 
-    private float timeInterval = 0f; 
+    // Define minimum swipe distance
+    [SerializeField] private float minSwipeDistance = 200f;
+
+    private Vector2 startTouchPosition;
+    private Vector2 endTouchPosition;
 
     private Rigidbody2D rigidBody = null;
     private Disc sprite = null; 
@@ -54,18 +56,28 @@ public class PlayerController : MonoBehaviour
             rigidBody.gravityScale = normalGravity;
         }
 
+        // On Mouse Down, record the position
         if (Input.GetMouseButtonDown(0))
-            touchTimeStart = Time.time;
+        {
+            startTouchPosition = Input.mousePosition;
+        }
 
+        // On Mouse Up, check if it's a swipe down gesture
         if (Input.GetMouseButtonUp(0))
         {
-            touchTimeFinish = Time.time;
-            timeInterval = touchTimeFinish - touchTimeStart;
+            endTouchPosition = Input.mousePosition;
+            float swipeDistance = startTouchPosition.y - endTouchPosition.y;
 
-            if (timeInterval < 0.2f) // if it is a tap
+            if (swipeDistance > minSwipeDistance)
             {
                 CycleColour(); 
             }
+        }
+
+        // If Spacebar is pressed, change the color
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            CycleColour();
         }
     }
 
