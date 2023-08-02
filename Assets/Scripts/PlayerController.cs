@@ -3,8 +3,6 @@ using MyBox;
 using DG.Tweening; 
 using Shapes;
 
-public enum PlayerColour { Red, Green, Blue }
-
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CircleCollider2D))]
 [RequireComponent(typeof(Disc))]
@@ -15,10 +13,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerColour colour = PlayerColour.Red;
 
     [Header ("Colours")]
-    [SerializeField] private Color red = Color.red;
-    [SerializeField] private Color green = Color.green;
-    [SerializeField] private Color blue = Color.blue;
-    [Space(8)]
     [SerializeField, PositiveValueOnly] private float colourChangeTime = 0.1f;
     [SerializeField] private Ease colourChangeEase = Ease.InOutSine;
 
@@ -30,14 +24,17 @@ public class PlayerController : MonoBehaviour
     private Disc sprite = null; 
     private new CircleCollider2D collider = null;
 
+    private GameManager gameManager = null; 
+
     private void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
         sprite = GetComponent<Disc>();
         collider = GetComponent<CircleCollider2D>();
 
-        // spriteRenderer.color = GetColour(colour); // set default colour
-        sprite.Color = GetColour(colour); // set default colour
+        gameManager = FindObjectOfType<GameManager>(); 
+
+        sprite.Color = gameManager.GetColour(colour); // set default colour
     }
 
     private void Update()
@@ -65,22 +62,6 @@ public class PlayerController : MonoBehaviour
     private void CycleColour ()
     {
         colour = (PlayerColour)(((int)colour + 1) % 3); // change colour to next in sequence
-
-        DOTween.To(() => sprite.Color, x => sprite.Color = x, GetColour(colour), colourChangeTime).SetEase(colourChangeEase);
-    }
-
-    private Color GetColour(PlayerColour playerColour)
-    {
-        switch (playerColour)
-        {
-            case PlayerColour.Red:
-                return red; 
-            case PlayerColour.Green:
-                return green; 
-            case PlayerColour.Blue:
-                return blue; 
-            default:
-                return Color.white;
-        }
+        DOTween.To(() => sprite.Color, x => sprite.Color = x, gameManager.GetColour(colour), colourChangeTime).SetEase(colourChangeEase);
     }
 }
