@@ -49,6 +49,6 @@ public class Spawner : MonoBehaviour
         obstacleTransform.DOMoveX(destroyPoint.position.x, scrollSpeed)
             .SetSpeedBased(true)
             .SetEase(Ease.Linear)
-            .OnComplete(() => Destroy(obstacleTransform.parent.gameObject));
+            .OnComplete(() => Destroy(obstacleTransform.gameObject));
     }
 }
