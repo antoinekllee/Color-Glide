@@ -324,7 +324,7 @@ GameObject:
   - component: {fileID: 180129995}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -356,7 +356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b51fb45abdaa6447f91ea80c3d5e2c52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thrust: 8
+  thrust: 13
   normalGravity: 2
   reducedGravity: 4
   colour: 0
@@ -775,7 +775,6 @@ MonoBehaviour:
   red: {r: 1, g: 0.09411765, b: 0, a: 1}
   green: {r: 0, g: 1, b: 0, a: 1}
   blue: {r: 0.13725491, g: 0.4117647, b: 1, a: 1}
-  scrollSpeed: 2
 --- !u!4 &1031371465
 Transform:
   m_ObjectHideFlags: 0
@@ -844,8 +843,10 @@ MonoBehaviour:
   - {fileID: 4168157710543157221, guid: d607a90578b9f4e72a4412a3683eff39, type: 3}
   spawnPoint: {fileID: 1686240409}
   destroyPoint: {fileID: 1383945356}
-  minSpawnInterval: 2
-  maxSpawnInterval: 5
+  minSpawnInterval: 1
+  maxSpawnInterval: 3
+  minScrollSpeed: 1
+  maxScrollSpeed: 3
 --- !u!1 &1383945355
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField, PositiveValueOnly] private float normalGravity = 2f; 
     [SerializeField, PositiveValueOnly] private float reducedGravity = 0.5f;
     [Space(8)]
-    [SerializeField] private ObjectColour colour = ObjectColour.Red;
+    public ObjectColour colour = ObjectColour.Red;
 
     [Header ("Colours")]
     [SerializeField, PositiveValueOnly] private float colourChangeTime = 0.1f;

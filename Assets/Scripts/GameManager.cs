@@ -11,9 +11,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Color green = Color.green;
     [SerializeField] private Color blue = Color.blue;
 
-    [Header ("Scrolling")]
-    [PositiveValueOnly] public float scrollSpeed = 1f; 
-
     [NonSerialized] public PlayerController playerController = null; 
 
     private void Start ()

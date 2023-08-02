@@ -14,14 +14,13 @@ public class Spawner : MonoBehaviour
     [SerializeField, PositiveValueOnly] private float maxSpawnInterval = 10f;
     private float nextSpawnInterval = 0f;
     private float spawnTimer = 0f; 
-
-    private GameManager gameManager = null; 
+    [Space (8)]
+    [SerializeField] private float minScrollSpeed = 1f; 
+    [SerializeField] private float maxScrollSpeed = 3f;
 
     private void Start ()
     {
         nextSpawnInterval = 0f;
-
-        gameManager = FindObjectOfType<GameManager>();
     }
 
     private void Update ()
@@ -40,18 +39,14 @@ public class Spawner : MonoBehaviour
     {
         int index = Random.Range(0, obstaclePrefabs.Length);
 
-        // Spawn a new empty gameobject called "obstacle" at the spawnpoint position, with no rotation, as a child of the spawner
-        // put the obstacle prefab as a child of the spawner
-        
-        // First, we instantiate an empty transform at spawnpoint (NOT THE PREFAB)
+        // Create empty parent object to translate right to left
         Transform obstacleTransform = Instantiate(new GameObject("Obstacle"), spawnPoint.position, Quaternion.identity, transform).transform;
-        // Then, we instantiate the obstacle prefab as a child of the empty transform
+        // Create obstacle as child of parent object so it can rotate locally
         Instantiate(obstaclePrefabs[index], obstacleTransform.position, Quaternion.identity, obstacleTransform);
         
-        // obstacleTransform.Translate(Vector2.left * gameManager.scrollSpeed * Time.deltaTime);
+        float scrollSpeed = Random.Range(minScrollSpeed, maxScrollSpeed);
 
-        // use dotween to move the obstacle transform to the left by gamemanager.scollspeed then destroy it after it reaches destoypoint x position. make it speed based
-        obstacleTransform.DOMoveX(destroyPoint.position.x, gameManager.scrollSpeed)
+        obstacleTransform.DOMoveX(destroyPoint.position.x, scrollSpeed)
             .SetSpeedBased(true)
             .SetEase(Ease.Linear)
             .OnComplete(() => Destroy(obstacleTransform.gameObject));
