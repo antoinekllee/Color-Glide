@@ -14,11 +14,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField, PositiveValueOnly] private float normalGravity = 2f; 
     [SerializeField, PositiveValueOnly] private float reducedGravity = 0.5f;
     [Space(8)]
-    public ObjectColour colour = ObjectColour.Red;
+    public ObjectColour objectColour = ObjectColour.Red;
 
     [Header ("Colours")]
     [SerializeField, PositiveValueOnly] private float colourChangeTime = 0.1f;
     [SerializeField] private Ease colourChangeEase = Ease.InOutSine;
+
+    [Header ("Effects")]
+    [SerializeField, MustBeAssigned] private ParticleSystem scoreParticles = null; 
 
     // Define minimum swipe distance
     [SerializeField] private float minSwipeDistance = 200f;
@@ -40,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
         gameManager = FindObjectOfType<GameManager>(); 
 
-        sprite.Color = gameManager.GetColour(colour); // set default colour
+        sprite.Color = gameManager.GetColour(objectColour); // set default colour
         rigidBody.gravityScale = normalGravity;
     }
 
@@ -85,7 +88,13 @@ public class PlayerController : MonoBehaviour
 
     private void CycleColour ()
     {
-        colour = (ObjectColour)(((int)colour + 1) % 3); // change colour to next in sequence
-        DOTween.To(() => sprite.Color, x => sprite.Color = x, gameManager.GetColour(colour), colourChangeTime).SetEase(colourChangeEase);
+        objectColour = (ObjectColour)(((int)objectColour + 1) % 3); // change colour to next in sequence
+        Color colour = gameManager.GetColour(objectColour); 
+
+        DOTween.To(() => sprite.Color, x => sprite.Color = x, colour, colourChangeTime).SetEase(colourChangeEase);
+
+        // update colour of scoreParticles
+        ParticleSystem.MainModule main = scoreParticles.main;
+        main.startColor = new ParticleSystem.MinMaxGradient(colour);
     }
 }

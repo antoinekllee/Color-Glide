@@ -49,7 +49,7 @@ public class ObstaclePart : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (playerController.colour == obstacleColour)
+            if (playerController.objectColour == obstacleColour)
             {
                 SameColourCollision();
             }
