@@ -236,7 +236,6 @@ GameObject:
   - component: {fileID: 1294397514496311781}
   - component: {fileID: 7499270223176751980}
   - component: {fileID: 7912028442750539011}
-  - component: {fileID: 7427524718797019652}
   m_Layer: 0
   m_Name: Disc
   m_TagString: Obstacle
@@ -445,47 +444,6 @@ MonoBehaviour:
   id: 0
   shape: {fileID: 2104655939827456719}
   collider: {fileID: 7499270223176751980}
---- !u!68 &7427524718797019652
-EdgeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 951763566915546500}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
-  m_Points:
-  - {x: -32768, y: 0}
-  - {x: 32768, y: 0}
-  m_AdjacentStartPoint: {x: 0, y: 0}
-  m_AdjacentEndPoint: {x: 0, y: 0}
-  m_UseAdjacentStartPoint: 0
-  m_UseAdjacentEndPoint: 0
 --- !u!1 &3516053309353308588
 GameObject:
   m_ObjectHideFlags: 0
