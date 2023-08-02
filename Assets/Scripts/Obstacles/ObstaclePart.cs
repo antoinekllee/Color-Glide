@@ -14,6 +14,7 @@ public class ObstaclePart : MonoBehaviour
     private new Collider2D collider = null;
 
     private GameManager gameManager = null; 
+    private PlayerController playerController = null; 
 
     private void Awake ()
     {
@@ -21,6 +22,7 @@ public class ObstaclePart : MonoBehaviour
         collider = GetComponent<Collider2D>();
 
         gameManager = FindObjectOfType<GameManager>();
+        playerController = gameManager.playerController; 
     }
 
     public void SetObjectColour (ObjectColour objectColour)
@@ -29,5 +31,20 @@ public class ObstaclePart : MonoBehaviour
 
         Color colour = gameManager.GetColour(obstacleColour);
         shape.Color = colour;
+    }
+
+    private void OnTriggerEnter2D (Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if (playerController.colour == obstacleColour)
+            {
+                Debug.Log ("ADD POINT"); 
+            }
+            else
+            {
+                Debug.Log ("GAME OVER");
+            }
+        }
     }
 }

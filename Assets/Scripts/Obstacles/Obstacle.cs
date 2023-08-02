@@ -7,6 +7,9 @@ public class Obstacle : MonoBehaviour
 {
     [Header ("Global")]
     [SerializeField, AutoProperty] protected ObstaclePart[] parts = null;
+    [Space (8)]
+    [SerializeField] private float minYOffset = -2f;
+    [SerializeField] private float maxYOffset = 2f; 
     [Space(8)]
     [SerializeField] private bool shouldRotate = false; 
     [ConditionalField(nameof(shouldRotate))] public float minRotateSpeed = 10f;
@@ -22,6 +25,8 @@ public class Obstacle : MonoBehaviour
 
     protected virtual void Start ()
     {
+        gameManager = FindObjectOfType<GameManager>();
+        
         SetupObstacle();
 
         if (shouldRotate)
@@ -33,7 +38,8 @@ public class Obstacle : MonoBehaviour
 
     protected virtual void SetupObstacle()
     {
-        gameManager = FindObjectOfType<GameManager>();
+        float yOffset = Random.Range(minYOffset, maxYOffset);
+        transform.position = new Vector2(transform.position.x, yOffset);
 
         int[] ids = new int[] { 0, 1, 2 };
         Array.Sort(ids, (a, b) => Random.Range(-1, 2));
