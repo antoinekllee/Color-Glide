@@ -458,8 +458,8 @@ MonoBehaviour:
   shouldRotate: 1
   minRotateSpeed: 20
   maxRotateSpeed: 50
-  minSize: 2
-  maxSize: 3.2
+  minSize: 2.5
+  maxSize: 3.5
 --- !u!1 &7484375308942604329
 GameObject:
   m_ObjectHideFlags: 0

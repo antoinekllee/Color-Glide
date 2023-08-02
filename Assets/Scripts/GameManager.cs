@@ -23,8 +23,9 @@ public class GameManager : MonoBehaviour
     [SerializeField, MustBeAssigned] private MMF_Player gameOverFeedbacks = null; 
 
     [Header ("UI")]
-    [SerializeField] private TextMeshProUGUI scoreText = null;
-    [SerializeField] private TextMeshProUGUI gameOverScoreText = null;
+    [SerializeField, MustBeAssigned] private TextMeshProUGUI scoreText = null;
+    [SerializeField, MustBeAssigned] private TextMeshProUGUI gameOverScoreText = null;
+    [SerializeField, MustBeAssigned] private GameObject gameOverPanel = null; 
 
     private int score = 0; 
 
@@ -72,6 +73,8 @@ public class GameManager : MonoBehaviour
         playerController.Die(); 
 
         gameOverScoreText.text = score.ToString(); 
+
+        gameOverPanel.SetActive(true);
 
         isGameOver = true; 
     }
