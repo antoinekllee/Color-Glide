@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviour
         {
             rigidBody.AddForce(Vector2.up * thrust); // apply upwards force on press
             rigidBody.gravityScale = reducedGravity;
+
+            Debug.Log ("Mouse Down");
         }
         else
         {

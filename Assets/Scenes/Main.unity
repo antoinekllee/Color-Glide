@@ -459,7 +459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b51fb45abdaa6447f91ea80c3d5e2c52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thrust: 9
+  thrust: 45
   normalGravity: 4
   reducedGravity: 2
   colour: 0
@@ -1355,6 +1355,11 @@ MonoBehaviour:
   red: {r: 1, g: 0.09411765, b: 0, a: 1}
   green: {r: 0, g: 1, b: 0, a: 1}
   blue: {r: 0.13725491, g: 0.4117647, b: 1, a: 1}
+  grey: {r: 0.20754719, g: 0.18698826, b: 0.18698826, a: 1}
+  obstacleFadeDuration: 0.2
+  obstacleFadeEase: 4
+  scoreFeedbacks: {fileID: 599769832}
+  scoreText: {fileID: 783477732}
 --- !u!4 &1031371465
 Transform:
   m_ObjectHideFlags: 0

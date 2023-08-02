@@ -1,6 +1,7 @@
 using UnityEngine;
 using Shapes;
 using MyBox; 
+using DG.Tweening; 
 
 [RequireComponent(typeof(ShapeRenderer))]
 [RequireComponent(typeof(Collider2D))]
@@ -33,13 +34,24 @@ public class ObstaclePart : MonoBehaviour
         shape.Color = colour;
     }
 
+    private void SameColourCollision ()
+    {
+        collider.enabled = false;
+
+        Color greyColour = gameManager.GetColour(ObjectColour.Grey); 
+        DOTween.To(() => shape.Color, x => shape.Color = x, greyColour, gameManager.obstacleFadeDuration)
+            .SetEase(gameManager.obstacleFadeEase); 
+
+        gameManager.IncreaseScore(); 
+    }
+
     private void OnTriggerEnter2D (Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
             if (playerController.colour == obstacleColour)
             {
-                Debug.Log ("ADD POINT"); 
+                SameColourCollision();
             }
             else
             {
