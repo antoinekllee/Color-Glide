@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header ("Controls")]
     [SerializeField, PositiveValueOnly] private float thrust = 5.0f;
-    [SerializeField] private PlayerColour colour = PlayerColour.Red;
+    [SerializeField] private ObjectColour colour = ObjectColour.Red;
 
     [Header ("Colours")]
     [SerializeField, PositiveValueOnly] private float colourChangeTime = 0.1f;
@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour
 
     private void CycleColour ()
     {
-        colour = (PlayerColour)(((int)colour + 1) % 3); // change colour to next in sequence
+        colour = (ObjectColour)(((int)colour + 1) % 3); // change colour to next in sequence
         DOTween.To(() => sprite.Color, x => sprite.Color = x, gameManager.GetColour(colour), colourChangeTime).SetEase(colourChangeEase);
     }
 }

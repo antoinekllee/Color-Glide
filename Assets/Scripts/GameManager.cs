@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum PlayerColour { Red, Green, Blue }
+public enum ObjectColour { Red, Green, Blue }
 
 public class GameManager : MonoBehaviour
 {
@@ -9,15 +9,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Color green = Color.green;
     [SerializeField] private Color blue = Color.blue;
 
-    public Color GetColour(PlayerColour playerColour)
+    public Color GetColour(ObjectColour playerColour)
     {
         switch (playerColour)
         {
-            case PlayerColour.Red:
+            case ObjectColour.Red:
                 return red; 
-            case PlayerColour.Green:
+            case ObjectColour.Green:
                 return green;
-            case PlayerColour.Blue:
+            case ObjectColour.Blue:
                 return blue;
             default:
                 return Color.white;
