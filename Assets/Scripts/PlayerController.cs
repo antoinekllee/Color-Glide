@@ -1,11 +1,11 @@
 using UnityEngine;
 using MyBox;
 using DG.Tweening; 
+using Shapes;
 
 public enum PlayerColour { Red, Green, Blue }
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(CircleCollider2D))]
 public class PlayerController : MonoBehaviour
 {
@@ -26,16 +26,17 @@ public class PlayerController : MonoBehaviour
     private float timeInterval = 0f; 
 
     private Rigidbody2D rigidBody = null;
-    private SpriteRenderer spriteRenderer = null;
+    private Disc sprite = null; 
     private new CircleCollider2D collider = null;
 
     private void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        sprite = GetComponent<Disc>();
         collider = GetComponent<CircleCollider2D>();
 
-        spriteRenderer.color = GetColour(colour); // set default colour
+        // spriteRenderer.color = GetColour(colour); // set default colour
+        sprite.Color = GetColour(colour); // set default colour
     }
 
     private void Update()
@@ -63,7 +64,8 @@ public class PlayerController : MonoBehaviour
     private void CycleColour ()
     {
         colour = (PlayerColour)(((int)colour + 1) % 3); // change colour to next in sequence
-        spriteRenderer.DOColor(GetColour(colour), colourChangeTime).SetEase(colourChangeEase); 
+        // spriteRenderer.DOColor(GetColour(colour), colourChangeTime).SetEase(colourChangeEase); 
+        sprite.Color = GetColour(colour);
     }
 
     private Color GetColour(PlayerColour playerColour)
