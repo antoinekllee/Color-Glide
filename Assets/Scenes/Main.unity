@@ -356,9 +356,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b51fb45abdaa6447f91ea80c3d5e2c52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thrust: 13
-  normalGravity: 2
-  reducedGravity: 4
+  thrust: 9
+  normalGravity: 4
+  reducedGravity: 2
   colour: 0
   colourChangeTime: 0.1
   colourChangeEase: 4
