@@ -55,7 +55,7 @@ public class ObstaclePart : MonoBehaviour
             }
             else
             {
-                Debug.Log ("GAME OVER");
+                gameManager.GameOver(); 
             }
         }
     }

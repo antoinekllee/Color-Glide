@@ -18,10 +18,17 @@ public class GameManager : MonoBehaviour
     [Header ("Effects")]
     [PositiveValueOnly] public float obstacleFadeDuration = 0.1f;
     public Ease obstacleFadeEase = Ease.InOutSine;
-    [SerializeField, MustBeAssigned] private MMFeedbacks scoreFeedbacks = null;
+    [Space (8)]
+    [SerializeField, MustBeAssigned] private MMF_Player scoreFeedbacks = null;
+    [SerializeField, MustBeAssigned] private MMF_Player gameOverFeedbacks = null; 
+
+    [Header ("UI")]
     [SerializeField] private TextMeshProUGUI scoreText = null;
+    [SerializeField] private TextMeshProUGUI gameOverScoreText = null;
 
     private int score = 0; 
+
+    [NonSerialized] public bool isGameOver = false; 
 
     [NonSerialized] public PlayerController playerController = null; 
 
@@ -55,5 +62,17 @@ public class GameManager : MonoBehaviour
         Debug.Log ("Score: " + score);
 
         scoreText.text = score.ToString();
+    }
+
+    public void GameOver ()
+    {
+        Debug.Log ("Game Over!");
+
+        gameOverFeedbacks.PlayFeedbacks();
+        playerController.Die(); 
+
+        gameOverScoreText.text = score.ToString(); 
+
+        isGameOver = true; 
     }
 }
