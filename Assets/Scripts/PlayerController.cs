@@ -7,6 +7,7 @@ public enum PlayerColour { Red, Green, Blue }
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CircleCollider2D))]
+[RequireComponent(typeof(Disc))]
 public class PlayerController : MonoBehaviour
 {
     [Header ("Controls")]
@@ -64,8 +65,8 @@ public class PlayerController : MonoBehaviour
     private void CycleColour ()
     {
         colour = (PlayerColour)(((int)colour + 1) % 3); // change colour to next in sequence
-        // spriteRenderer.DOColor(GetColour(colour), colourChangeTime).SetEase(colourChangeEase); 
-        sprite.Color = GetColour(colour);
+
+        DOTween.To(() => sprite.Color, x => sprite.Color = x, GetColour(colour), colourChangeTime).SetEase(colourChangeEase);
     }
 
     private Color GetColour(PlayerColour playerColour)
