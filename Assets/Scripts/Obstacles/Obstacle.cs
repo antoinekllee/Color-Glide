@@ -12,8 +12,11 @@ public class Obstacle : MonoBehaviour
     [ConditionalField(nameof(shouldRotate))] public float minRotateSpeed = 10f;
     [ConditionalField(nameof(shouldRotate))] public float maxRotateSpeed = 20f;
     private float rotateSpeed = 0f;
-    
-    [Header ("Specific")]
+    // [Space(8)]
+    // [SerializeField] private bool shouldMove = false;
+    // [ConditionalField(nameof(shouldMove))] public float minMoveSpeed = 1f;
+    // [ConditionalField(nameof(shouldMove))] public float maxMoveSpeed = 2f;
+    // private float moveSpeed = 0f;
 
     [NonSerialized] protected GameManager gameManager = null; 
 
@@ -23,6 +26,9 @@ public class Obstacle : MonoBehaviour
 
         if (shouldRotate)
             rotateSpeed = Random.Range(minRotateSpeed, maxRotateSpeed);
+        
+        // if (shouldMove)
+        //     moveSpeed = Random.Range(minMoveSpeed, maxMoveSpeed);
     }
 
     protected virtual void SetupObstacle()
@@ -37,12 +43,14 @@ public class Obstacle : MonoBehaviour
             int index = Array.IndexOf(ids, part.id);
             part.SetObjectColour((ObjectColour)index);
         }
-
     }
 
     private void Update ()
     {
         if (shouldRotate)
             transform.Rotate(Vector3.forward * rotateSpeed * Time.deltaTime);
+
+        // if (shouldMove)
+        //     transform.Translate(Vector2.left * moveSpeed * Time.deltaTime);
     }
 }

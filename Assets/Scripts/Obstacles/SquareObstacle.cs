@@ -4,8 +4,9 @@ using Shapes;
 
 public class SquareObstacle : Obstacle
 {
-    [SerializeField, PositiveValueOnly] private float maxSize = 3.5f;
+    [Header ("Specific")]
     [SerializeField, PositiveValueOnly] private float minSize = 1.5f;
+    [SerializeField, PositiveValueOnly] private float maxSize = 3.5f;
     private float size = 0f;
     
     protected override void SetupObstacle()

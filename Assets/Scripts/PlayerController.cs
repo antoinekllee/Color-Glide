@@ -10,6 +10,10 @@ public class PlayerController : MonoBehaviour
 {
     [Header ("Controls")]
     [SerializeField, PositiveValueOnly] private float thrust = 5.0f;
+    [Space(8)]
+    [SerializeField, PositiveValueOnly] private float normalGravity = 2f; 
+    [SerializeField, PositiveValueOnly] private float reducedGravity = 0.5f;
+    [Space(8)]
     [SerializeField] private ObjectColour colour = ObjectColour.Red;
 
     [Header ("Colours")]
@@ -35,6 +39,7 @@ public class PlayerController : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>(); 
 
         sprite.Color = gameManager.GetColour(colour); // set default colour
+        rigidBody.gravityScale = normalGravity;
     }
 
     private void Update()
@@ -42,6 +47,11 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             rigidBody.AddForce(Vector2.up * thrust); // apply upwards force on press
+            rigidBody.gravityScale = reducedGravity;
+        }
+        else
+        {
+            rigidBody.gravityScale = normalGravity;
         }
 
         if (Input.GetMouseButtonDown(0))
