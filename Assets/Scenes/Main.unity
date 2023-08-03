@@ -10286,7 +10286,7 @@ MonoBehaviour:
   swapFeedbacks: {fileID: 605229354}
   swapParticles: {fileID: 269247470}
   deathParticles: {fileID: 135042966}
-  resetDelay: 2
+  resetDelay: 1.3
 --- !u!50 &180129993
 Rigidbody2D:
   serializedVersion: 4
@@ -18745,7 +18745,7 @@ MonoBehaviour:
   streakTextSpawner: {fileID: 1736283766}
   streakTextOffset: {x: 1, y: 1}
   streakFeedbacks: {fileID: 483712593}
-  restartCooldown: 2
+  restartCooldown: 1.2
 --- !u!4 &1031371465
 Transform:
   m_ObjectHideFlags: 0
@@ -19547,7 +19547,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1383945355}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5, y: 0, z: 0}
+  m_LocalPosition: {x: -7, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -25903,7 +25903,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1686240408}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: 0, z: 0}
+  m_LocalPosition: {x: 7, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
 
     [Header ("Restarting")]
     [SerializeField, PositiveValueOnly] private float restartCooldown = 0.5f;
-    private bool canRestart = false; 
+    private bool canRestart = true; 
 
     private int highScore = 0;
     private int score = 0; 
@@ -120,7 +120,7 @@ public class GameManager : MonoBehaviour
     {
         if (isGameOver)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && canRestart)
             {
                 isGameOver = false;
                 menuAnimator.SetTrigger("start");
