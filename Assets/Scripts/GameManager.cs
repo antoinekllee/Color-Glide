@@ -88,13 +88,9 @@ public class GameManager : MonoBehaviour
             streakFeedbacks.GetComponent<MMFeedbackFloatingText>().Value = "x" + currStreak.ToString();
 
             streakFeedbacks?.PlayFeedbacks();
-
-            Debug.Log ("STREAK"); 
         }
         else
-        {
             currStreak = 1;
-        }
 
         streakTimer -= streakTimer; // reset timer
     }

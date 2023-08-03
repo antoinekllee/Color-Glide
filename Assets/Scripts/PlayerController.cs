@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header ("Controls")]
     [SerializeField, PositiveValueOnly] private float thrust = 5.0f;
+    [SerializeField, PositiveValueOnly] private float wallImpulse = 5f; 
     [Space(8)]
     [SerializeField, PositiveValueOnly] private float normalGravity = 2f; 
     [SerializeField, PositiveValueOnly] private float reducedGravity = 0.5f;
@@ -137,4 +138,13 @@ public class PlayerController : MonoBehaviour
 
         jetpackParticles.Stop();
     }
+
+    // private void OnCollisionEnter2D(Collision2D collision)
+    // {
+    //     if (collision.gameObject.CompareTag("Wall"))
+    //     {
+    //         // add impulse force to player to bounce off wall
+    //         rigidBody.AddForce(collision.contacts[0].normal * wallImpulse, ForceMode2D.Impulse);
+    //     }
+    // }
 }

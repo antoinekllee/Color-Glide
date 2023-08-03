@@ -10013,7 +10013,7 @@ GameObject:
   - component: {fileID: 159461867}
   m_Layer: 0
   m_Name: Top
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10116,8 +10116,8 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 779219549
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &159461868
@@ -10236,7 +10236,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b51fb45abdaa6447f91ea80c3d5e2c52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thrust: 50
+  thrust: 5.5
+  wallImpulse: 5
   normalGravity: 4
   reducedGravity: 2
   minSwipeDistance: 200
@@ -10350,7 +10351,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 433141437
-  m_SortingLayer: 1
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &180129996
@@ -18060,7 +18061,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 00000000a78a5bb2bd36d119
+  m_ApplyToSortingLayers: 00000000a78a5bb2bd36d1195f3418aee1018e7e5df2712e
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -18311,7 +18312,7 @@ GameObject:
   - component: {fileID: 1038633080}
   - component: {fileID: 1038633081}
   m_Layer: 0
-  m_Name: Obstacles
+  m_Name: Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18379,6 +18380,27 @@ MonoBehaviour:
     - {fileID: 5698035856202211306, guid: 622a2d32134724f97854a609e8174807, type: 3}
     - {fileID: 5569808229499725692, guid: c43efed8da4ba4400af11e9f87068853, type: 3}
     isBigObstacle: 1
+    useCustomIntervals: 0
+    minSpawnInterval: 0
+    maxSpawnInterval: 0
+    useCustomScrollSpeed: 0
+    minScrollSpeed: 0
+    maxScrollSpeed: 0
+  - prefabVariants:
+    - {fileID: 4307848711221968972, guid: daaefaca666ec42baad668e7b94f6553, type: 3}
+    - {fileID: 2659964813923380893, guid: 64397bd3e82be464b89c56d2d7b99394, type: 3}
+    isBigObstacle: 1
+    useCustomIntervals: 0
+    minSpawnInterval: 0
+    maxSpawnInterval: 0
+    useCustomScrollSpeed: 0
+    minScrollSpeed: 0
+    maxScrollSpeed: 0
+  - prefabVariants:
+    - {fileID: 4307848711221968972, guid: daaefaca666ec42baad668e7b94f6553, type: 3}
+    - {fileID: 2659964813923380893, guid: 64397bd3e82be464b89c56d2d7b99394, type: 3}
+    - {fileID: 4189234341796383593, guid: 62e0abd5ac5ed420088b9148e25b11cb, type: 3}
+    isBigObstacle: 0
     useCustomIntervals: 0
     minSpawnInterval: 0
     maxSpawnInterval: 0
@@ -18675,7 +18697,7 @@ GameObject:
   - component: {fileID: 1396294774}
   m_Layer: 0
   m_Name: Bottom
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18718,8 +18740,8 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 779219549
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1396294775
