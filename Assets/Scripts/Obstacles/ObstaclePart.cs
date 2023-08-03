@@ -42,6 +42,10 @@ public class ObstaclePart : MonoBehaviour
         DOTween.To(() => shape.Color, x => shape.Color = x, greyColour, gameManager.obstacleFadeDuration)
             .SetEase(gameManager.obstacleFadeEase); 
 
+        // get the id of sorting layer called "Obstacle Faded"
+        int sortingLayerID = SortingLayer.NameToID("Obstacle Faded");
+        shape.SortingLayerID = sortingLayerID;
+
         gameManager.IncreaseScore(); 
     }
 

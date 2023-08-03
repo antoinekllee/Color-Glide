@@ -136,8 +136,8 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1374145441
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &3306292000509522722
@@ -247,8 +247,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parts:
   - {fileID: 3306292000509522722}
-  minYOffset: -2
-  maxYOffset: 2
+  minYOffset: -3
+  maxYOffset: 3
   shouldRotate: 0
   minRotateSpeed: 10
   maxRotateSpeed: 20

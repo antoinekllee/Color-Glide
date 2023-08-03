@@ -8,8 +8,8 @@ public class Obstacle : MonoBehaviour
     [Header ("Global")]
     [SerializeField, AutoProperty] protected ObstaclePart[] parts = null;
     [Space (8)]
-    [SerializeField] private float minYOffset = -2f;
-    [SerializeField] private float maxYOffset = 2f; 
+    [SerializeField] private float minYOffset = -3f;
+    [SerializeField] private float maxYOffset = 3f; 
     [Space(8)]
     [SerializeField] private bool shouldRotate = false; 
     [ConditionalField(nameof(shouldRotate))] public float minRotateSpeed = 10f;
