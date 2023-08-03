@@ -1,10 +1,10 @@
-# Quantum Glide 🚀
+# Color Glide 🚀
 
-Quantum Glide is a hyper-casual, one-touch mobile game crafted for iOS. In this vibrant game, you're put in control of a subatomic particle - a quark. Your mission is to glide through a realm filled with color-coded barriers. The simple yet captivating gameplay is easy to pick up but hard to master, ensuring an engaging experience for players of all levels.
+Color Glide is a hyper-casual, one-touch mobile game crafted for iOS. In this vibrant game, you're put in control of a subatomic particle - a quark. Your mission is to glide through a realm filled with color-coded barriers. The simple yet captivating gameplay is easy to pick up but hard to master, ensuring an engaging experience for players of all levels.
 
 ## Gameplay and Controls 🎮
 
-Quantum Glide has been designed to provide an immersive gaming experience with minimalist controls.
+Color Glide has been designed to provide an immersive gaming experience with minimalist controls.
 
 - **Tap** the screen to change your quark's color. The colors cycle in the following order: red, green, blue.
 - **Hold** the screen to make the quark ascend.
