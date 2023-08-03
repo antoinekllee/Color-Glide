@@ -139,12 +139,12 @@ public class PlayerController : MonoBehaviour
         jetpackParticles.Stop();
     }
 
-    // private void OnCollisionEnter2D(Collision2D collision)
-    // {
-    //     if (collision.gameObject.CompareTag("Wall"))
-    //     {
-    //         // add impulse force to player to bounce off wall
-    //         rigidBody.AddForce(collision.contacts[0].normal * wallImpulse, ForceMode2D.Impulse);
-    //     }
-    // }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            // add impulse force to player to bounce off wall
+            rigidBody.AddForce(collision.contacts[0].normal * wallImpulse, ForceMode2D.Impulse);
+        }
+    }
 }

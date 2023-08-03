@@ -10237,7 +10237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thrust: 5.5
-  wallImpulse: 5
+  wallImpulse: 10
   normalGravity: 4
   reducedGravity: 2
   minSwipeDistance: 200
