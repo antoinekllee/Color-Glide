@@ -41,8 +41,8 @@ public class Spawner : MonoBehaviour
 
     [Header ("Game Over")]
     [SerializeField, PositiveValueOnly] private float dropDelay = 0.5f;
-    [SerializeField, PositiveValueOnly] private float dropSpeed = 2f;
-    [SerializeField] private float destroyY = -10f;
+    [SerializeField, PositiveValueOnly] private float dropDuration = 2f;
+    [SerializeField] private float destroyYOffset = -10f;
     [SerializeField, PositiveValueOnly] private AnimationCurve dropAnimationCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
     private GameManager gameManager = null; 
@@ -104,11 +104,13 @@ public class Spawner : MonoBehaviour
     {
         foreach (Transform obstacle in activeObstacles)
         {
+            obstacle.GetComponentInChildren<Collider2D>().enabled = false;
+
             DOTween.Kill(obstacle);
 
-            obstacle.DOMoveY(destroyY, dropSpeed)
+            obstacle.DOMoveY(obstacle.position.y + destroyYOffset, dropDuration)
                 .SetDelay(dropDelay)
-                .SetSpeedBased(true)
+                // .SetSpeedBased(true)
                 .SetEase(dropAnimationCurve)
                 .OnComplete(() => Destroy(obstacle.gameObject));
         }

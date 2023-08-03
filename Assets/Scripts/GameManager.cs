@@ -23,13 +23,17 @@ public class GameManager : MonoBehaviour
     [SerializeField, MustBeAssigned] private MMF_Player gameOverFeedbacks = null; 
 
     [Header ("UI")]
-    [SerializeField, MustBeAssigned] private TextMeshProUGUI scoreText = null;
-    [SerializeField, MustBeAssigned] private Animator scoreTextAnimator = null; 
+    [SerializeField, MustBeAssigned] private TextMeshProUGUI inGameScoreText = null;
     [Space (8)]
+    [SerializeField, MustBeAssigned] private GameObject menuPanel = null;
+    [Space (8)]
+    [SerializeField, MustBeAssigned] private GameObject startScoresPanel = null;
+    [SerializeField, MustBeAssigned] private TextMeshProUGUI startHighScoreText = null;
+    [Space (8)]
+    [SerializeField, MustBeAssigned] private GameObject inGameScoresPanel = null;
     [SerializeField, MustBeAssigned] private TextMeshProUGUI highScoreText = null;
-    [Space (8)]
-    [SerializeField, MustBeAssigned] private TextMeshProUGUI gameOverScoreText = null;
-    [SerializeField, MustBeAssigned] private GameObject gameOverPanel = null; 
+    [SerializeField, MustBeAssigned] private TextMeshProUGUI menuScoreText = null;
+    [SerializeField, MustBeAssigned] private Animator scoreTextAnimator = null; 
 
     [Header ("Streaks")]
     [SerializeField, MustBeAssigned] private float maxStreakInterval = 0.2f; // max time between obstacles to count as a streak
@@ -43,7 +47,7 @@ public class GameManager : MonoBehaviour
     private int highScore = 0;
     private int score = 0; 
 
-    [NonSerialized] public bool isGameOver = false; 
+    [NonSerialized] public bool isGameOver = true; 
 
     [NonSerialized] public PlayerController playerController = null; 
     private Transform playerTransform = null; 
@@ -55,6 +59,9 @@ public class GameManager : MonoBehaviour
         playerTransform = playerController.transform;
         
         spawner = FindObjectOfType<Spawner>();
+
+        startScoresPanel.SetActive(true);
+        inGameScoresPanel.SetActive(false);
 
         LoadHighScore();
     }
@@ -82,7 +89,7 @@ public class GameManager : MonoBehaviour
 
         score++;
 
-        scoreText.text = score.ToString();
+        inGameScoreText.text = score.ToString();
         scoreTextAnimator.SetTrigger ("spin"); 
 
         if (streakTimer <= maxStreakInterval)
@@ -106,7 +113,19 @@ public class GameManager : MonoBehaviour
     private void Update ()
     {
         if (isGameOver)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                isGameOver = false;
+                menuPanel.SetActive(false);
+                playerController.StartGame();
+
+                startScoresPanel.SetActive(false);
+                inGameScoresPanel.SetActive(true);
+            }
+
             return; 
+        }
 
         streakTimer += Time.deltaTime; 
     }
@@ -125,9 +144,12 @@ public class GameManager : MonoBehaviour
             SaveHighScore();
         }
 
-        gameOverScoreText.text = score.ToString(); 
+        menuScoreText.text = score.ToString();
 
-        gameOverPanel.SetActive(true);
+        score = 0; // reset score
+        inGameScoreText.text = score.ToString();
+
+        menuPanel.SetActive(true);
 
         isGameOver = true; 
     }
@@ -144,6 +166,7 @@ public class GameManager : MonoBehaviour
         {
             highScore = PlayerPrefs.GetInt("HighScore");
             highScoreText.text = highScore.ToString();
+            startHighScoreText.text = highScore.ToString();
         }
     }
 }

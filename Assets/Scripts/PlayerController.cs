@@ -35,9 +35,14 @@ public class PlayerController : MonoBehaviour
     [Space (8)]
     [SerializeField, MustBeAssigned] private ParticleSystem deathParticles = null;
 
+    [Header ("Resetting")]
+    [SerializeField, PositiveValueOnly] private float resetDelay = 2f;
+    private Vector3 startPos = Vector3.zero;
+
     private Rigidbody2D rigidBody = null;
     private Disc shape = null; 
     private new CircleCollider2D collider = null;
+    private Animator animator = null; 
 
     private GameManager gameManager = null; 
 
@@ -46,13 +51,16 @@ public class PlayerController : MonoBehaviour
         rigidBody = GetComponent<Rigidbody2D>();
         shape = GetComponentInChildren<Disc>();
         collider = GetComponentInChildren<CircleCollider2D>();
+        animator = GetComponent <Animator>(); 
 
         gameManager = FindObjectOfType<GameManager>(); 
 
         colour = gameManager.GetColour(objectColour);
         CycleColour (); // set initial colour
         
-        rigidBody.gravityScale = normalGravity;
+        rigidBody.gravityScale = 0f;
+
+        startPos = transform.position;
     }
 
     private void Update()
@@ -100,6 +108,9 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate() 
     {
+        if (gameManager.isGameOver)
+            return;
+
         if (shouldThrust)
         {
             rigidBody.AddForce(Vector2.up * thrust); // apply upwards force on press
@@ -146,5 +157,25 @@ public class PlayerController : MonoBehaviour
         rigidBody.angularVelocity = 0f;
 
         jetpackParticles.Stop();
+
+        DOVirtual.DelayedCall(resetDelay, () => 
+        {
+            transform.position = startPos;
+
+            collider.enabled = true;
+            shape.enabled = true; 
+
+            animator.SetTrigger ("reset");
+        }, false);
+    }
+
+    public void PlayJetpackParticles ()
+    {
+        jetpackParticles.Play();
+    }
+
+    public void StartGame()
+    {
+        animator.SetTrigger ("start");
     }
 }
