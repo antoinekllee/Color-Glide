@@ -30,7 +30,11 @@ public class Obstacle : MonoBehaviour
         SetupObstacle();
 
         if (shouldRotate)
+        {
             rotateSpeed = Random.Range(minRotateSpeed, maxRotateSpeed);
+            if (Random.Range(0, 2) == 0)
+                rotateSpeed *= -1f;
+        }
         
         // if (shouldMove)
         //     moveSpeed = Random.Range(minMoveSpeed, maxMoveSpeed);

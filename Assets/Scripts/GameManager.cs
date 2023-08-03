@@ -29,6 +29,10 @@ public class GameManager : MonoBehaviour
 
     [Header ("Streaks")]
     [SerializeField, MustBeAssigned] private float maxStreakInterval = 0.2f; // max time between obstacles to count as a streak
+    [Space (8)]
+    [SerializeField, MustBeAssigned] private MMFloatingTextSpawner streakTextSpawner = null;
+    [SerializeField, PositiveValueOnly] private Vector2 streakTextOffset = Vector2.one; 
+    [SerializeField, MustBeAssigned] private MMFeedbacks streakFeedbacks = null;
     private float streakTimer = 0f;
     private int currStreak = 0;
 
@@ -37,10 +41,12 @@ public class GameManager : MonoBehaviour
     [NonSerialized] public bool isGameOver = false; 
 
     [NonSerialized] public PlayerController playerController = null; 
+    private Transform playerTransform = null; 
 
     private void Start ()
     {
         playerController = FindObjectOfType<PlayerController>();
+        playerTransform = playerController.transform;
     }
 
     public Color GetColour(ObjectColour playerColour)
@@ -65,22 +71,41 @@ public class GameManager : MonoBehaviour
         scoreFeedbacks?.PlayFeedbacks();
 
         score++;
-        Debug.Log ("Score: " + score);
 
         scoreText.text = score.ToString();
 
-        if (streakTimer < maxStreakInterval)
-        {
-            Debug.Log ("Streak!");
-        }
+        // if (streakTimer <= maxStreakInterval)
+        // {
+            currStreak++;
 
-        streakTimer = 0f;
+            streakTextSpawner.SpawnOffsetMin = playerController.transform.position + (Vector3)streakTextOffset;
+            streakTextSpawner.SpawnOffsetMax = playerController.transform.position + (Vector3)streakTextOffset;
+
+            // get floating text feedback and set value
+            streakFeedbacks.GetComponent<MMFeedbackFloatingText>().Value = "x" + currStreak.ToString();
+
+            streakFeedbacks?.PlayFeedbacks();
+
+            Debug.Log ("STREAK"); 
+        // }
+        // else
+        // {
+        //     currStreak = 1;
+        // }
+
+        streakTimer -= streakTimer; // reset timer
+    }
+
+    private void Update ()
+    {
+        if (isGameOver)
+            return; 
+
+        streakTimer += Time.deltaTime; 
     }
 
     public void GameOver ()
     {
-        Debug.Log ("Game Over!");
-
         gameOverFeedbacks.PlayFeedbacks();
         playerController.Die(); 
 

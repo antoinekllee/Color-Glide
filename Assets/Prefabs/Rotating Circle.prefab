@@ -723,7 +723,7 @@ MonoBehaviour:
   maxYOffset: 2
   shouldRotate: 1
   minRotateSpeed: 50
-  maxRotateSpeed: 100
+  maxRotateSpeed: 80
   minRadius: 1.5
   maxRadius: 3.5
   resolution: 15
