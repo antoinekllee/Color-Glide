@@ -74,6 +74,8 @@ public class Spawner : MonoBehaviour
         int index = Random.Range(0, obstacleData.Length);
         while ((lastWasBigObstacle &&  obstacleData[index].isBigObstacle) || (index == lastObstacleIndex && obstacleData.Length > 1))
             index = Random.Range(0, obstacleData.Length);
+        
+        lastObstacleIndex = index;
 
         ObstacleData data = obstacleData[index];
         lastWasBigObstacle = data.isBigObstacle;
