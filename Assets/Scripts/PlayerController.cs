@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Ease colourChangeEase = Ease.InOutSine;
 
     [Header ("Effects")]
+    [SerializeField, MustBeAssigned] private ParticleSystem jetpackParticles = null;
+    [Space (8)]
     [SerializeField, MustBeAssigned] private ParticleSystem scoreParticles = null; 
     [Space (8)]
     [SerializeField, MustBeAssigned] private MMF_Player swapFeedbacks = null;
@@ -62,10 +64,16 @@ public class PlayerController : MonoBehaviour
         {
             rigidBody.AddForce(Vector2.up * thrust); // apply upwards force on press
             rigidBody.gravityScale = reducedGravity;
+
+            if (!jetpackParticles.isPlaying)
+                jetpackParticles.Play();
         }
         else
         {
             rigidBody.gravityScale = normalGravity;
+
+            if (jetpackParticles.isPlaying)
+                jetpackParticles.Stop();
         }
 
         // On Mouse Down, record the position
@@ -111,6 +119,10 @@ public class PlayerController : MonoBehaviour
 
         // update colour of deathParticles
         main = deathParticles.main;
+        main.startColor = new ParticleSystem.MinMaxGradient(colour);
+
+        // update colour of jetpackParticles
+        main = jetpackParticles.main;
         main.startColor = new ParticleSystem.MinMaxGradient(colour);
     }
 

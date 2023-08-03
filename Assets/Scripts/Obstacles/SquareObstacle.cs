@@ -27,7 +27,7 @@ public class SquareObstacle : Obstacle
 
             float offset = (size / 2f) - (rectangle.Thickness / 2f); 
             
-            if (part.id == 0)
+            if (partTransform.localPosition.x == 0f)
                 partTransform.localPosition = new Vector2 (0f, partTransform.localPosition.y > 0 ? offset : -offset);
             else 
                 partTransform.localPosition = new Vector2 (partTransform.localPosition.x > 0 ? offset : -offset, 0f);

@@ -27,6 +27,11 @@ public class GameManager : MonoBehaviour
     [SerializeField, MustBeAssigned] private TextMeshProUGUI gameOverScoreText = null;
     [SerializeField, MustBeAssigned] private GameObject gameOverPanel = null; 
 
+    [Header ("Streaks")]
+    [SerializeField, MustBeAssigned] private float maxStreakInterval = 0.2f; // max time between obstacles to count as a streak
+    private float streakTimer = 0f;
+    private int currStreak = 0;
+
     private int score = 0; 
 
     [NonSerialized] public bool isGameOver = false; 
@@ -63,6 +68,13 @@ public class GameManager : MonoBehaviour
         Debug.Log ("Score: " + score);
 
         scoreText.text = score.ToString();
+
+        if (streakTimer < maxStreakInterval)
+        {
+            Debug.Log ("Streak!");
+        }
+
+        streakTimer = 0f;
     }
 
     public void GameOver ()

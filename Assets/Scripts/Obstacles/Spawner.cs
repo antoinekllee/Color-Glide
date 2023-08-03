@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 [Serializable] 
 public class ObstacleData
 {
-    public GameObject prefab = null; 
+    public GameObject[] prefabVariants = null; 
     public bool isBigObstacle = false;
     [Space (8)]
     public bool useCustomIntervals = true; 
@@ -49,7 +49,7 @@ public class Spawner : MonoBehaviour
     {
         if (gameManager.isGameOver)
             return; 
-            
+
         spawnTimer += Time.deltaTime;
 
         if (spawnTimer >= nextSpawnInterval)
@@ -66,13 +66,14 @@ public class Spawner : MonoBehaviour
             index = Random.Range(0, obstacleData.Length);
 
         ObstacleData data = obstacleData[index];
-
         lastWasBigObstacle = data.isBigObstacle;
+        int variantInex = Random.Range(0, data.prefabVariants.Length);
+        GameObject prefab = data.prefabVariants[variantInex];
 
         // Create empty parent object to translate right to left
         Transform obstacleTransform = Instantiate(new GameObject("Obstacle"), spawnPoint.position, Quaternion.identity, transform).transform;
         // Create obstacle as child of parent object so it can rotate locally
-        Instantiate(data.prefab, obstacleTransform.position, Quaternion.identity, obstacleTransform);
+        Instantiate(prefab, obstacleTransform.position, Quaternion.identity, obstacleTransform);
         
         float scrollSpeed = data.useCustomScrollSpeed ? Random.Range(data.minScrollSpeed, data.maxScrollSpeed) : Random.Range(minScrollSpeed, maxScrollSpeed);
 
