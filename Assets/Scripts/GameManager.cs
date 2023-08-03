@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     [SerializeField, MustBeAssigned] private TextMeshProUGUI scoreText = null;
     [SerializeField, MustBeAssigned] private Animator scoreTextAnimator = null; 
     [Space (8)]
+    [SerializeField, MustBeAssigned] private TextMeshProUGUI highScoreText = null;
+    [Space (8)]
     [SerializeField, MustBeAssigned] private TextMeshProUGUI gameOverScoreText = null;
     [SerializeField, MustBeAssigned] private GameObject gameOverPanel = null; 
 
@@ -38,6 +40,7 @@ public class GameManager : MonoBehaviour
     private float streakTimer = 0f;
     private int currStreak = 0;
 
+    private int highScore = 0;
     private int score = 0; 
 
     [NonSerialized] public bool isGameOver = false; 
@@ -49,6 +52,8 @@ public class GameManager : MonoBehaviour
     {
         playerController = FindObjectOfType<PlayerController>();
         playerTransform = playerController.transform;
+
+        LoadHighScore();
     }
 
     public Color GetColour(ObjectColour playerColour)
@@ -108,10 +113,33 @@ public class GameManager : MonoBehaviour
         gameOverFeedbacks.PlayFeedbacks();
         playerController.Die(); 
 
+        if (score > highScore)
+        {
+            highScore = score;
+            highScoreText.text = highScore.ToString();
+
+            SaveHighScore();
+        }
+
         gameOverScoreText.text = score.ToString(); 
 
         gameOverPanel.SetActive(true);
 
         isGameOver = true; 
+    }
+
+    private void SaveHighScore()
+    {
+        PlayerPrefs.SetInt("HighScore", highScore);
+        PlayerPrefs.Save();
+    }
+
+    private void LoadHighScore()
+    {
+        if(PlayerPrefs.HasKey("HighScore"))
+        {
+            highScore = PlayerPrefs.GetInt("HighScore");
+            highScoreText.text = highScore.ToString();
+        }
     }
 }

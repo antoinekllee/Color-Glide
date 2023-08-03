@@ -10237,7 +10237,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thrust: 5.5
-  wallImpulse: 10
   normalGravity: 4
   reducedGravity: 2
   minSwipeDistance: 200
@@ -10376,7 +10375,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blendMode: 1
   scaleMode: 0
-  color: {r: 1, g: 0.09411765, b: 0, a: 1}
+  color: {r: 0.8867924, g: 0.28025985, b: 0.6638892, a: 1}
   detailLevel: 2
   renderQueue: -1
   zTest: 4
@@ -18270,9 +18269,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4fb5c509357c4e3da1667801418a9a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  red: {r: 1, g: 0.09411765, b: 0, a: 1}
+  red: {r: 0.8901961, g: 0.28235295, b: 0.6666667, a: 1}
   green: {r: 0, g: 1, b: 0, a: 1}
-  blue: {r: 0.13725491, g: 0.4117647, b: 1, a: 1}
+  blue: {r: 0.3764706, g: 0.5254902, b: 0.84313726, a: 1}
   grey: {r: 0.20754719, g: 0.18698826, b: 0.18698826, a: 1}
   obstacleFadeDuration: 0.2
   obstacleFadeEase: 4
@@ -18280,6 +18279,7 @@ MonoBehaviour:
   gameOverFeedbacks: {fileID: 1450320086}
   scoreText: {fileID: 783477732}
   scoreTextAnimator: {fileID: 783477734}
+  highScoreText: {fileID: 1163170744}
   gameOverScoreText: {fileID: 908007209}
   gameOverPanel: {fileID: 1735481988}
   maxStreakInterval: 3
@@ -18397,9 +18397,16 @@ MonoBehaviour:
     minScrollSpeed: 0
     maxScrollSpeed: 0
   - prefabVariants:
-    - {fileID: 4307848711221968972, guid: daaefaca666ec42baad668e7b94f6553, type: 3}
-    - {fileID: 2659964813923380893, guid: 64397bd3e82be464b89c56d2d7b99394, type: 3}
     - {fileID: 4189234341796383593, guid: 62e0abd5ac5ed420088b9148e25b11cb, type: 3}
+    isBigObstacle: 0
+    useCustomIntervals: 0
+    minSpawnInterval: 0
+    maxSpawnInterval: 0
+    useCustomScrollSpeed: 0
+    minScrollSpeed: 0
+    maxScrollSpeed: 0
+  - prefabVariants:
+    - {fileID: 4198149264371725182, guid: d2f86eb060251493884f6a028d16d8c9, type: 3}
     isBigObstacle: 0
     useCustomIntervals: 0
     minSpawnInterval: 0

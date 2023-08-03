@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 1759899486002081312}
   - component: {fileID: 1329063847271322540}
   m_Layer: 0
-  m_Name: DiagonalLine
+  m_Name: Diagonal Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
