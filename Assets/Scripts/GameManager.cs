@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     [SerializeField, MustBeAssigned] private TextMeshProUGUI inGameScoreText = null;
     [Space (8)]
     [SerializeField, MustBeAssigned] private GameObject menuPanel = null;
+    [SerializeField, MustBeAssigned] private Animator menuAnimator = null; 
+    [SerializeField, MustBeAssigned] private TextMeshProUGUI restartText = null;
     [Space (8)]
     [SerializeField, MustBeAssigned] private GameObject startScoresPanel = null;
     [SerializeField, MustBeAssigned] private TextMeshProUGUI startHighScoreText = null;
@@ -43,6 +45,10 @@ public class GameManager : MonoBehaviour
     [SerializeField, MustBeAssigned] private MMFeedbacks streakFeedbacks = null;
     private float streakTimer = 0f;
     private int currStreak = 0;
+
+    [Header ("Restarting")]
+    [SerializeField, PositiveValueOnly] private float restartCooldown = 0.5f;
+    private bool canRestart = false; 
 
     private int highScore = 0;
     private int score = 0; 
@@ -117,11 +123,8 @@ public class GameManager : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 isGameOver = false;
-                menuPanel.SetActive(false);
+                menuAnimator.SetTrigger("start");
                 playerController.StartGame();
-
-                startScoresPanel.SetActive(false);
-                inGameScoresPanel.SetActive(true);
             }
 
             return; 
@@ -133,8 +136,14 @@ public class GameManager : MonoBehaviour
     public void GameOver ()
     {
         gameOverFeedbacks.PlayFeedbacks();
+        menuAnimator.SetTrigger("gameOver");
         playerController.Die(); 
         spawner.OnGameOver(); 
+
+        startScoresPanel.SetActive(false);
+        inGameScoresPanel.SetActive(true);
+
+        restartText.text = "Tap to restart!";
 
         if (score > highScore)
         {
@@ -150,6 +159,9 @@ public class GameManager : MonoBehaviour
         inGameScoreText.text = score.ToString();
 
         menuPanel.SetActive(true);
+
+        canRestart = false;
+        DOVirtual.DelayedCall(restartCooldown, () => canRestart = true, false);
 
         isGameOver = true; 
     }

@@ -27,6 +27,7 @@ public class Spawner : MonoBehaviour
     [SerializeField, MustBeAssigned] private Transform spawnPoint = null; 
     [SerializeField, MustBeAssigned] private Transform destroyPoint = null; 
     private bool lastWasBigObstacle = false;
+    private int lastObstacleIndex = -1;
 
     private List<Transform> activeObstacles = new List<Transform>();
 
@@ -71,7 +72,7 @@ public class Spawner : MonoBehaviour
     private void SpawnObstacle ()
     {
         int index = Random.Range(0, obstacleData.Length);
-        while (lastWasBigObstacle && obstacleData[index].isBigObstacle)
+        while ((lastWasBigObstacle &&  obstacleData[index].isBigObstacle) || (index == lastObstacleIndex && obstacleData.Length > 1))
             index = Random.Range(0, obstacleData.Length);
 
         ObstacleData data = obstacleData[index];
