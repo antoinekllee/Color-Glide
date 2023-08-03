@@ -3,6 +3,7 @@ using MyBox;
 using DG.Tweening; 
 using System; 
 using Random = UnityEngine.Random; 
+using System.Collections.Generic;
 
 [Serializable] 
 public class ObstacleData
@@ -27,6 +28,8 @@ public class Spawner : MonoBehaviour
     [SerializeField, MustBeAssigned] private Transform destroyPoint = null; 
     private bool lastWasBigObstacle = false;
 
+    private List<Transform> activeObstacles = new List<Transform>();
+
     [Header ("Intervals")]
     [SerializeField, PositiveValueOnly] private float minSpawnInterval = 5f; 
     [SerializeField, PositiveValueOnly] private float maxSpawnInterval = 10f;
@@ -35,6 +38,12 @@ public class Spawner : MonoBehaviour
     [Space (8)]
     [SerializeField] private float minScrollSpeed = 1f; 
     [SerializeField] private float maxScrollSpeed = 3f;
+
+    [Header ("Game Over")]
+    [SerializeField, PositiveValueOnly] private float dropDelay = 0.5f;
+    [SerializeField, PositiveValueOnly] private float dropSpeed = 2f;
+    [SerializeField] private float destroyY = -10f;
+    [SerializeField, PositiveValueOnly] private AnimationCurve dropAnimationCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
     private GameManager gameManager = null; 
 
@@ -80,8 +89,30 @@ public class Spawner : MonoBehaviour
         obstacleTransform.DOMoveX(destroyPoint.position.x, scrollSpeed)
             .SetSpeedBased(true)
             .SetEase(Ease.Linear)
-            .OnComplete(() => Destroy(obstacleTransform.gameObject));
+            .OnComplete(() => 
+            {
+                activeObstacles.Remove(obstacleTransform);
+                Destroy(obstacleTransform.gameObject);
+            });
+
+        activeObstacles.Add(obstacleTransform);
 
         nextSpawnInterval = data.useCustomIntervals ? Random.Range(data.minSpawnInterval, data.maxSpawnInterval) : Random.Range(minSpawnInterval, maxSpawnInterval);
+    }
+
+    public void OnGameOver ()
+    {
+        foreach (Transform obstacle in activeObstacles)
+        {
+            DOTween.Kill(obstacle);
+
+            obstacle.DOMoveY(destroyY, dropSpeed)
+                .SetDelay(dropDelay)
+                .SetSpeedBased(true)
+                .SetEase(dropAnimationCurve)
+                .OnComplete(() => Destroy(obstacle.gameObject));
+        }
+
+        activeObstacles.Clear();
     }
 }

@@ -47,11 +47,14 @@ public class GameManager : MonoBehaviour
 
     [NonSerialized] public PlayerController playerController = null; 
     private Transform playerTransform = null; 
+    private Spawner spawner = null; 
 
     private void Start ()
     {
         playerController = FindObjectOfType<PlayerController>();
         playerTransform = playerController.transform;
+        
+        spawner = FindObjectOfType<Spawner>();
 
         LoadHighScore();
     }
@@ -112,6 +115,7 @@ public class GameManager : MonoBehaviour
     {
         gameOverFeedbacks.PlayFeedbacks();
         playerController.Die(); 
+        spawner.OnGameOver(); 
 
         if (score > highScore)
         {

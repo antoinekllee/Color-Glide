@@ -5,13 +5,11 @@ using Shapes;
 using MoreMountains.Feedbacks; 
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(CircleCollider2D))]
-[RequireComponent(typeof(Disc))]
 public class PlayerController : MonoBehaviour
 {
     [Header ("Controls")]
-    [SerializeField, PositiveValueOnly] private float thrust = 5.0f;
-    // [SerializeField, PositiveValueOnly] private float wallImpulse = 5f; 
+    [SerializeField, PositiveValueOnly] private float thrust = 5.5f;
+    private bool shouldThrust = false;
     [Space(8)]
     [SerializeField, PositiveValueOnly] private float normalGravity = 2f; 
     [SerializeField, PositiveValueOnly] private float reducedGravity = 0.5f;
@@ -46,8 +44,8 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
-        shape = GetComponent<Disc>();
-        collider = GetComponent<CircleCollider2D>();
+        shape = GetComponentInChildren<Disc>();
+        collider = GetComponentInChildren<CircleCollider2D>();
 
         gameManager = FindObjectOfType<GameManager>(); 
 
@@ -64,16 +62,13 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            rigidBody.AddForce(Vector2.up * thrust); // apply upwards force on press
-            rigidBody.gravityScale = reducedGravity;
-
+            shouldThrust = true;
             if (!jetpackParticles.isPlaying)
                 jetpackParticles.Play();
         }
         else
         {
-            rigidBody.gravityScale = normalGravity;
-
+            shouldThrust = false;
             if (jetpackParticles.isPlaying)
                 jetpackParticles.Stop();
         }
@@ -100,6 +95,19 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             CycleColour();
+        }
+    }
+
+    private void FixedUpdate() 
+    {
+        if (shouldThrust)
+        {
+            rigidBody.AddForce(Vector2.up * thrust); // apply upwards force on press
+            rigidBody.gravityScale = reducedGravity;
+        }
+        else
+        {
+            rigidBody.gravityScale = normalGravity;
         }
     }
 
@@ -139,13 +147,4 @@ public class PlayerController : MonoBehaviour
 
         jetpackParticles.Stop();
     }
-
-    // private void OnCollisionEnter2D(Collision2D collision)
-    // {
-    //     if (collision.gameObject.CompareTag("Wall"))
-    //     {
-    //         // add impulse force to player to bounce off wall
-    //         rigidBody.AddForce(collision.contacts[0].normal * wallImpulse, ForceMode2D.Impulse);
-    //     }
-    // }
 }
