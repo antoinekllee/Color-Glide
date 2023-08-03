@@ -134,5 +134,7 @@ public class PlayerController : MonoBehaviour
         rigidBody.gravityScale = 0f;
         rigidBody.velocity = Vector2.zero;
         rigidBody.angularVelocity = 0f;
+
+        jetpackParticles.Stop();
     }
 }

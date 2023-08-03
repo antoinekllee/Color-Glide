@@ -725,7 +725,7 @@ MonoBehaviour:
   minRotateSpeed: 50
   maxRotateSpeed: 80
   minRadius: 1.5
-  maxRadius: 3.5
+  maxRadius: 3
   resolution: 15
   thickness: 0.2
 --- !u!1 &8831103648206729080

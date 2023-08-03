@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
 
     [Header ("UI")]
     [SerializeField, MustBeAssigned] private TextMeshProUGUI scoreText = null;
+    [SerializeField, MustBeAssigned] private Animator scoreTextAnimator = null; 
+    [Space (8)]
     [SerializeField, MustBeAssigned] private TextMeshProUGUI gameOverScoreText = null;
     [SerializeField, MustBeAssigned] private GameObject gameOverPanel = null; 
 
@@ -73,9 +75,10 @@ public class GameManager : MonoBehaviour
         score++;
 
         scoreText.text = score.ToString();
+        scoreTextAnimator.SetTrigger ("spin"); 
 
-        // if (streakTimer <= maxStreakInterval)
-        // {
+        if (streakTimer <= maxStreakInterval)
+        {
             currStreak++;
 
             streakTextSpawner.SpawnOffsetMin = playerController.transform.position + (Vector3)streakTextOffset;
@@ -87,11 +90,11 @@ public class GameManager : MonoBehaviour
             streakFeedbacks?.PlayFeedbacks();
 
             Debug.Log ("STREAK"); 
-        // }
-        // else
-        // {
-        //     currStreak = 1;
-        // }
+        }
+        else
+        {
+            currStreak = 1;
+        }
 
         streakTimer -= streakTimer; // reset timer
     }
