@@ -48,7 +48,15 @@ public class GameManager : MonoBehaviour
 
     [Header ("Restarting")]
     [SerializeField, PositiveValueOnly] private float restartCooldown = 0.5f;
-    private bool canRestart = true; 
+    private bool canRestart = false; 
+
+    [Header ("Pausing")]
+    [SerializeField, MustBeAssigned] private CanvasGroup pauseCanvasGroup = null;
+    [SerializeField, MustBeAssigned] private GameObject pauseButton = null; 
+    [Space (8)]
+    [SerializeField, PositiveValueOnly] private float pauseFadeDuration = 0.5f;
+    [SerializeField] private Ease pauseFadeEase = Ease.InOutSine;
+    private bool isPaused = false; 
 
     private int highScore = 0;
     private int score = 0; 
@@ -68,6 +76,8 @@ public class GameManager : MonoBehaviour
 
         startScoresPanel.SetActive(true);
         inGameScoresPanel.SetActive(false);
+
+        DOVirtual.DelayedCall(restartCooldown, () => canRestart = true, false);
 
         LoadHighScore();
     }
@@ -124,10 +134,19 @@ public class GameManager : MonoBehaviour
             {
                 isGameOver = false;
                 menuAnimator.SetTrigger("start");
+                pauseButton.SetActive(true);
                 playerController.StartGame();
             }
 
             return; 
+        }
+
+        if (isPaused)
+        {
+            if (Input.GetMouseButtonDown(0))
+                PauseGame();
+
+            return;    
         }
 
         streakTimer += Time.deltaTime; 
@@ -159,6 +178,8 @@ public class GameManager : MonoBehaviour
         inGameScoreText.text = score.ToString();
 
         menuPanel.SetActive(true);
+        pauseButton.SetActive(false);
+        pauseCanvasGroup.alpha = 0f;
 
         canRestart = false;
         DOVirtual.DelayedCall(restartCooldown, () => canRestart = true, false);
@@ -179,6 +200,22 @@ public class GameManager : MonoBehaviour
             highScore = PlayerPrefs.GetInt("HighScore");
             highScoreText.text = highScore.ToString();
             startHighScoreText.text = highScore.ToString();
+        }
+    }
+
+    public void PauseGame ()
+    {
+        isPaused = !isPaused;
+
+        if (isPaused)
+        {
+            Time.timeScale = 0f;
+            pauseCanvasGroup.DOFade(1f, pauseFadeDuration).SetUpdate(true).SetEase(pauseFadeEase);
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            pauseCanvasGroup.DOFade(0f, pauseFadeDuration).SetUpdate(true).SetEase(pauseFadeEase);
         }
     }
 }
