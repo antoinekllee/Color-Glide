@@ -101,6 +101,9 @@ public class GameManager : MonoBehaviour
 
     public void IncreaseScore ()
     {
+        if (isGameOver)
+            return;
+
         scoreFeedbacks?.PlayFeedbacks();
 
         score++;

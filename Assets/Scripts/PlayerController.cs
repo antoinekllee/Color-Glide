@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 endTouchPosition;
     [Space(8)]
     public ObjectColour objectColour = ObjectColour.Red;
-    public Color colour = Color.red;
+    private Color colour = Color.red;
 
     [Header ("Colours")]
     [SerializeField, PositiveValueOnly] private float colourChangeTime = 0.1f;
@@ -35,13 +35,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField, MustBeAssigned] private ParticleSystem swapParticles = null;
     [Space (8)]
     [SerializeField, MustBeAssigned] private ParticleSystem deathParticles = null;
+    [SerializeField, MustBeAssigned] private ParticleSystem tapParticles = null; 
 
     [Header ("Resetting")]
     [SerializeField, PositiveValueOnly] private float resetDelay = 2f;
     private Vector3 startPos = Vector3.zero;
 
+    [Header ("Graphics")]
+    [SerializeField, MustBeAssigned] private Disc shape = null; 
+    [SerializeField, MustBeAssigned] private Disc nextColourIndicator = null; 
+
     private Rigidbody2D rigidBody = null;
-    private Disc shape = null; 
     private new CircleCollider2D collider = null;
     private Animator animator = null; 
 
@@ -50,7 +54,6 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
-        shape = GetComponentInChildren<Disc>();
         collider = GetComponentInChildren<CircleCollider2D>();
         animator = GetComponent <Animator>(); 
 
@@ -72,31 +75,22 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             justTapped = true;
-            // shouldThrust = true;
-            // if (!jetpackParticles.isPlaying)
-            //     jetpackParticles.Play();
-        }
-        // else
-        // {
-            // shouldThrust = false;
-            // if (jetpackParticles.isPlaying)
-            //     jetpackParticles.Stop();
-        // }
-
-        // On Mouse Down, record the position
-        if (Input.GetMouseButtonDown(0))
-        {
             startTouchPosition = Input.mousePosition;
         }
 
-        // On Mouse Up, check if it's a swipe down gesture
         if (Input.GetMouseButtonUp(0))
         {
             endTouchPosition = Input.mousePosition;
 
+            tapParticles?.Play();
+
             if (Vector2.Distance(startTouchPosition, endTouchPosition) > minSwipeDistance)
             {
                 CycleColour(); 
+            }
+            else
+            {
+                animator.SetTrigger ("tap");
             }
         }
 
@@ -140,7 +134,10 @@ public class PlayerController : MonoBehaviour
         objectColour = (ObjectColour)(((int)objectColour + 1) % 3); // change colour to next in sequence
         colour = gameManager.GetColour(objectColour); 
 
+        Color nextColour = gameManager.GetColour ((ObjectColour)(((int)objectColour + 1) % 3)); // indicate next colour in sequence
+
         DOTween.To(() => shape.Color, x => shape.Color = x, colour, colourChangeTime).SetEase(colourChangeEase);
+        DOTween.To(() => nextColourIndicator.Color, x => nextColourIndicator.Color = x, nextColour, colourChangeTime).SetEase(colourChangeEase);
 
         // update colour of scoreParticles
         main = scoreParticles.main;
@@ -152,6 +149,10 @@ public class PlayerController : MonoBehaviour
 
         // update colour of jetpackParticles
         main = jetpackParticles.main;
+        main.startColor = new ParticleSystem.MinMaxGradient(colour);
+
+        // update colour of tapParticles
+        main = tapParticles.main;
         main.startColor = new ParticleSystem.MinMaxGradient(colour);
     }
 
