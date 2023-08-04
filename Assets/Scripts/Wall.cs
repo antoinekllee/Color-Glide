@@ -25,6 +25,7 @@ public class Wall : MonoBehaviour
 
     [SerializeField] private float resetDuration = 0.5f;
     [SerializeField] private Ease resetEase = Ease.InOutSine;
+    private bool isReset = false; 
 
     private void Start()
     {
@@ -44,6 +45,7 @@ public class Wall : MonoBehaviour
         if (!other.gameObject.CompareTag("Player"))
             return;
 
+        isReset = false; 
         isTouching = true;
     }
 
@@ -61,11 +63,16 @@ public class Wall : MonoBehaviour
         {
             survivalTimer = 0f;
 
-            DOTween.To(() => shape.Color, x => shape.Color = x, normalColour, resetDuration)
-                .SetEase(resetEase);
+            if (!isReset)
+            {
+                DOTween.To(() => shape.Color, x => shape.Color = x, normalColour, resetDuration)
+                    .SetEase(resetEase);
 
-            DOTween.To(() => vignette.intensity.value, x => vignette.intensity.value = x, 0, resetDuration)
-                .SetEase(resetEase);
+                DOTween.To(() => vignette.intensity.value, x => vignette.intensity.value = x, 0, resetDuration)
+                    .SetEase(resetEase);
+
+                isReset = true;
+            }
 
             return;
         }
