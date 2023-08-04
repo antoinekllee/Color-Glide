@@ -18293,6 +18293,68 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 195}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &627044678
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 627044680}
+  - component: {fileID: 627044679}
+  m_Layer: 0
+  m_Name: BG Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &627044679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627044678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbe425be07c0d4147bace7e622abec2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shapes:
+  - prefab: {fileID: 1819223004368999866, guid: 496e5a792d42842e28148cab634bfba2, type: 3}
+    weight: 1
+  - prefab: {fileID: 5987776227604620792, guid: 6457c8e26f7b54bf699eccf79b79774e, type: 3}
+    weight: 1
+  - prefab: {fileID: 5322141980348172948, guid: 9e53057683b034f728d5a761085b7c6c, type: 3}
+    weight: 1
+  spawnX: 7
+  minSpawnY: -5
+  maxSpawnY: 5
+  minRotateSpeed: 10
+  maxRotateSpeed: 20
+  minSize: 0.5
+  maxSize: 1.5
+  minSpeed: 0.5
+  maxSpeed: 1.5
+  minSpawnInterval: 0.5
+  maxSpawnInterval: 1.5
+--- !u!4 &627044680
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 627044678}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &647119292
 GameObject:
   m_ObjectHideFlags: 0
@@ -19240,7 +19302,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 00000000a78a5bb2bd36d1195f3418aee1018e7e5df2712e
+  m_ApplyToSortingLayers: 00000000a78a5bb2bd36d1195f3418aee1018e7e5df2712e2d917ebd
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -19712,7 +19774,7 @@ MonoBehaviour:
   streakTextSpawner: {fileID: 1736283766}
   streakTextOffset: {x: 1, y: 1}
   streakFeedbacks: {fileID: 483712593}
-  restartCooldown: 1.2
+  restartCooldown: 1.5
   pauseCanvasGroup: {fileID: 204406787}
   pauseButton: {fileID: 1150033783}
   pauseFadeDuration: 0.05
