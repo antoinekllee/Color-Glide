@@ -8,11 +8,12 @@ using MoreMountains.Feedbacks;
 public class PlayerController : MonoBehaviour
 {
     [Header ("Controls")]
-    [SerializeField, PositiveValueOnly] private float thrust = 5.5f;
-    private bool shouldThrust = false;
+    [SerializeField, PositiveValueOnly] private float jumpForce = 20f;
+    private bool justTapped = false;
     [Space(8)]
-    [SerializeField, PositiveValueOnly] private float normalGravity = 2f; 
-    [SerializeField, PositiveValueOnly] private float reducedGravity = 0.5f;
+    [SerializeField, PositiveValueOnly] private float gravity = 2f;
+    // [SerializeField, PositiveValueOnly] private float normalGravity = 2f; 
+    // [SerializeField, PositiveValueOnly] private float reducedGravity = 0.5f;
     [Space(8)]
     [SerializeField] private float minSwipeDistance = 200f;
     private Vector2 startTouchPosition;
@@ -57,7 +58,7 @@ public class PlayerController : MonoBehaviour
 
         colour = gameManager.GetColour(objectColour);
         CycleColour (); // set initial colour
-        
+
         rigidBody.gravityScale = 0f;
 
         startPos = transform.position;
@@ -68,18 +69,19 @@ public class PlayerController : MonoBehaviour
         if (gameManager.isGameOver)
             return;
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
-            shouldThrust = true;
-            if (!jetpackParticles.isPlaying)
-                jetpackParticles.Play();
+            justTapped = true;
+            // shouldThrust = true;
+            // if (!jetpackParticles.isPlaying)
+            //     jetpackParticles.Play();
         }
-        else
-        {
-            shouldThrust = false;
-            if (jetpackParticles.isPlaying)
-                jetpackParticles.Stop();
-        }
+        // else
+        // {
+            // shouldThrust = false;
+            // if (jetpackParticles.isPlaying)
+            //     jetpackParticles.Stop();
+        // }
 
         // On Mouse Down, record the position
         if (Input.GetMouseButtonDown(0))
@@ -91,9 +93,8 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             endTouchPosition = Input.mousePosition;
-            float swipeDistance = startTouchPosition.y - endTouchPosition.y;
 
-            if (swipeDistance > minSwipeDistance)
+            if (Vector2.Distance(startTouchPosition, endTouchPosition) > minSwipeDistance)
             {
                 CycleColour(); 
             }
@@ -111,15 +112,22 @@ public class PlayerController : MonoBehaviour
         if (gameManager.isGameOver)
             return;
 
-        if (shouldThrust)
+        if (justTapped)
         {
-            rigidBody.AddForce(Vector2.up * thrust); // apply upwards force on press
-            rigidBody.gravityScale = reducedGravity;
+            rigidBody.velocity = Vector2.zero;
+            rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            justTapped = false;
         }
-        else
-        {
-            rigidBody.gravityScale = normalGravity;
-        }
+
+        // if (shouldThrust)
+        // {
+        //     rigidBody.AddForce(Vector2.up * thrust); // apply upwards force on press
+        //     rigidBody.gravityScale = reducedGravity;
+        // }
+        // else
+        // {
+        //     rigidBody.gravityScale = normalGravity;
+        // }
     }
 
     private void CycleColour ()
@@ -160,6 +168,8 @@ public class PlayerController : MonoBehaviour
 
         DOVirtual.DelayedCall(resetDelay, () => 
         {
+            rigidBody.gravityScale = 0f;
+
             transform.position = startPos;
 
             collider.enabled = true;
@@ -177,5 +187,6 @@ public class PlayerController : MonoBehaviour
     public void StartGame()
     {
         animator.SetTrigger ("start");
+        rigidBody.gravityScale = gravity;
     }
 }
