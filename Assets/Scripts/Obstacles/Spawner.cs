@@ -10,14 +10,6 @@ public class ObstacleData
 {
     public GameObject[] prefabVariants = null; 
     public bool isBigObstacle = false;
-    [Space (8)]
-    public bool useCustomIntervals = true; 
-    [ConditionalField(nameof(useCustomIntervals))] public float minSpawnInterval = 5f;
-    [ConditionalField(nameof(useCustomIntervals))] public float maxSpawnInterval = 10f;
-    [Space (8)]
-    public bool useCustomScrollSpeed = true;
-    [ConditionalField(nameof(useCustomScrollSpeed))] public float minScrollSpeed = 1f;
-    [ConditionalField(nameof(useCustomScrollSpeed))] public float maxScrollSpeed = 3f;
 }
 
 public class Spawner : MonoBehaviour
@@ -32,13 +24,18 @@ public class Spawner : MonoBehaviour
     private List<Transform> activeObstacles = new List<Transform>();
 
     [Header ("Intervals")]
-    [SerializeField, PositiveValueOnly] private float minSpawnInterval = 5f; 
-    [SerializeField, PositiveValueOnly] private float maxSpawnInterval = 10f;
+    [SerializeField, PositiveValueOnly] private float minSpawnInterval = 1.2f; 
+    [SerializeField, PositiveValueOnly] private float maxSpawnInterval = 3f;
     private float nextSpawnInterval = 0f;
     private float spawnTimer = 0f; 
     [Space (8)]
-    [SerializeField] private float minScrollSpeed = 1f; 
-    [SerializeField] private float maxScrollSpeed = 3f;
+    [SerializeField] private float minScrollSpeed = 1.3f; 
+    [SerializeField] private float maxScrollSpeed = 1.9f;
+
+    [Header ("Levels")]
+    [SerializeField, PositiveValueOnly] private float levelUpIntervalDecrease = 0.05f;
+    [SerializeField, PositiveValueOnly] private float levelUpScrollSpeedIncrease = 0.05f;
+    [SerializeField, PositiveValueOnly] private int stopLevelUpScore = 100; 
 
     [Header ("Game Over")]
     [SerializeField, PositiveValueOnly] private float dropDelay = 0.5f;
@@ -72,7 +69,7 @@ public class Spawner : MonoBehaviour
     private void SpawnObstacle ()
     {
         int index = Random.Range(0, obstacleData.Length);
-        while ((lastWasBigObstacle &&  obstacleData[index].isBigObstacle) || (index == lastObstacleIndex && obstacleData.Length > 1))
+        while ((lastWasBigObstacle &&  obstacleData[index].isBigObstacle) || (index == lastObstacleIndex && obstacleData.Length > 1) || (gameManager.score < 5 && obstacleData[index].isBigObstacle))
             index = Random.Range(0, obstacleData.Length);
         
         lastObstacleIndex = index;
@@ -87,7 +84,7 @@ public class Spawner : MonoBehaviour
         // Create obstacle as child of parent object so it can rotate locally
         Instantiate(prefab, obstacleTransform.position, Quaternion.identity, obstacleTransform);
         
-        float scrollSpeed = data.useCustomScrollSpeed ? Random.Range(data.minScrollSpeed, data.maxScrollSpeed) : Random.Range(minScrollSpeed, maxScrollSpeed);
+        float scrollSpeed = Random.Range(minScrollSpeed, maxScrollSpeed);
 
         obstacleTransform.DOMoveX(destroyPoint.position.x, scrollSpeed)
             .SetSpeedBased(true)
@@ -100,7 +97,7 @@ public class Spawner : MonoBehaviour
 
         activeObstacles.Add(obstacleTransform);
 
-        nextSpawnInterval = data.useCustomIntervals ? Random.Range(data.minSpawnInterval, data.maxSpawnInterval) : Random.Range(minSpawnInterval, maxSpawnInterval);
+        nextSpawnInterval = Random.Range(minSpawnInterval, maxSpawnInterval);
     }
 
     public void OnGameOver ()
@@ -119,5 +116,22 @@ public class Spawner : MonoBehaviour
         }
 
         activeObstacles.Clear();
+    }
+
+    public void CheckDifficulty ()
+    {
+        // Every 10 points (or if score ends in a 0), increase difficulty
+        if (gameManager.score % 10 == 0 && gameManager.score != 0)
+        {
+            if (gameManager.score < stopLevelUpScore)
+            {
+                minSpawnInterval -= levelUpIntervalDecrease;
+                maxSpawnInterval -= levelUpIntervalDecrease;
+                minScrollSpeed += levelUpScrollSpeedIncrease;
+                maxScrollSpeed += levelUpScrollSpeedIncrease;
+            }
+
+            gameManager.SpawnFloatingText("Level up!");
+        }
     }
 }

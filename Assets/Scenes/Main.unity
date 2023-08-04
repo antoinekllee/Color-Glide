@@ -19844,75 +19844,36 @@ MonoBehaviour:
   - prefabVariants:
     - {fileID: 4168157710543157221, guid: d607a90578b9f4e72a4412a3683eff39, type: 3}
     isBigObstacle: 0
-    useCustomIntervals: 0
-    minSpawnInterval: 0
-    maxSpawnInterval: 0
-    useCustomScrollSpeed: 0
-    minScrollSpeed: 0
-    maxScrollSpeed: 0
   - prefabVariants:
     - {fileID: 7498773509035656127, guid: 1fb0d3eac11584818a9070ecdb9f9942, type: 3}
     isBigObstacle: 0
-    useCustomIntervals: 0
-    minSpawnInterval: 0
-    maxSpawnInterval: 0
-    useCustomScrollSpeed: 0
-    minScrollSpeed: 0
-    maxScrollSpeed: 0
   - prefabVariants:
     - {fileID: 7379369366503884230, guid: 60694b088a59e47aba321bbce5bc16be, type: 3}
     - {fileID: 7484671462732271124, guid: f8d9d8d9314154f01a076f1bea60f728, type: 3}
     isBigObstacle: 1
-    useCustomIntervals: 0
-    minSpawnInterval: 0
-    maxSpawnInterval: 0
-    useCustomScrollSpeed: 0
-    minScrollSpeed: 0
-    maxScrollSpeed: 0
   - prefabVariants:
     - {fileID: 5698035856202211306, guid: 622a2d32134724f97854a609e8174807, type: 3}
     - {fileID: 5569808229499725692, guid: c43efed8da4ba4400af11e9f87068853, type: 3}
     isBigObstacle: 1
-    useCustomIntervals: 0
-    minSpawnInterval: 0
-    maxSpawnInterval: 0
-    useCustomScrollSpeed: 0
-    minScrollSpeed: 0
-    maxScrollSpeed: 0
   - prefabVariants:
     - {fileID: 4307848711221968972, guid: daaefaca666ec42baad668e7b94f6553, type: 3}
     - {fileID: 2659964813923380893, guid: 64397bd3e82be464b89c56d2d7b99394, type: 3}
     isBigObstacle: 1
-    useCustomIntervals: 0
-    minSpawnInterval: 0
-    maxSpawnInterval: 0
-    useCustomScrollSpeed: 0
-    minScrollSpeed: 0
-    maxScrollSpeed: 0
   - prefabVariants:
     - {fileID: 4189234341796383593, guid: 62e0abd5ac5ed420088b9148e25b11cb, type: 3}
     isBigObstacle: 1
-    useCustomIntervals: 0
-    minSpawnInterval: 0
-    maxSpawnInterval: 0
-    useCustomScrollSpeed: 0
-    minScrollSpeed: 0
-    maxScrollSpeed: 0
   - prefabVariants:
     - {fileID: 4198149264371725182, guid: d2f86eb060251493884f6a028d16d8c9, type: 3}
     isBigObstacle: 0
-    useCustomIntervals: 0
-    minSpawnInterval: 0
-    maxSpawnInterval: 0
-    useCustomScrollSpeed: 0
-    minScrollSpeed: 0
-    maxScrollSpeed: 0
   spawnPoint: {fileID: 1686240409}
   destroyPoint: {fileID: 1383945356}
-  minSpawnInterval: 1.2
-  maxSpawnInterval: 3
-  minScrollSpeed: 1.3
-  maxScrollSpeed: 1.9
+  minSpawnInterval: 1.25
+  maxSpawnInterval: 3.05
+  minScrollSpeed: 1.25
+  maxScrollSpeed: 1.85
+  levelUpIntervalDecrease: 0.05
+  levelUpScrollSpeedIncrease: 0.05
+  stopLevelUpScore: 100
   dropDelay: 0.1
   dropDuration: 1.2
   destroyYOffset: -10

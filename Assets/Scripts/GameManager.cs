@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
     private bool isPaused = false; 
 
     private int highScore = 0;
-    private int score = 0; 
+    [NonSerialized] public int score = 0; 
 
     [NonSerialized] public bool isGameOver = true; 
 
@@ -114,19 +114,25 @@ public class GameManager : MonoBehaviour
         if (streakTimer <= maxStreakInterval)
         {
             currStreak++;
-
-            streakTextSpawner.SpawnOffsetMin = playerController.transform.position + (Vector3)streakTextOffset;
-            streakTextSpawner.SpawnOffsetMax = playerController.transform.position + (Vector3)streakTextOffset;
-
-            // get floating text feedback and set value
-            streakFeedbacks.GetComponent<MMFeedbackFloatingText>().Value = "x" + currStreak.ToString();
-
-            streakFeedbacks?.PlayFeedbacks();
+            SpawnFloatingText("x" + currStreak.ToString());
         }
         else
             currStreak = 1;
 
+        spawner.CheckDifficulty();
+
         streakTimer -= streakTimer; // reset timer
+    }
+
+    public void SpawnFloatingText(string text)
+    {
+        streakTextSpawner.SpawnOffsetMin = playerController.transform.position + (Vector3)streakTextOffset;
+        streakTextSpawner.SpawnOffsetMax = playerController.transform.position + (Vector3)streakTextOffset;
+
+        // get floating text feedback and set value
+        streakFeedbacks.GetComponent<MMFeedbackFloatingText>().Value = text;
+
+        streakFeedbacks?.PlayFeedbacks();
     }
 
     private void Update ()
@@ -139,6 +145,7 @@ public class GameManager : MonoBehaviour
                 menuAnimator.SetTrigger("start");
                 pauseButton.SetActive(true);
                 playerController.StartGame();
+                inGameScoreText.text = "0";
             }
 
             return; 
