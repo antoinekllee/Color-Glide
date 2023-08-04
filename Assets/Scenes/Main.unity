@@ -16110,6 +16110,8 @@ MonoBehaviour:
   survivalTime: 1.2
   dangerColour: {r: 1, g: 0.13333334, b: 0, a: 1}
   shape: {fileID: 159461869}
+  volume: {fileID: 1669999124}
+  maxVignIntensity: 0.45
 --- !u!1 &344581090
 GameObject:
   m_ObjectHideFlags: 0
@@ -18430,8 +18432,8 @@ MonoBehaviour:
   maxRotateSpeed: 20
   minSize: 0.5
   maxSize: 1.5
-  minSpeed: 0.5
-  maxSpeed: 1.5
+  minSpeed: 0.2
+  maxSpeed: 1
   minSpawnInterval: 0.5
   maxSpawnInterval: 1.5
 --- !u!4 &627044680
@@ -20546,6 +20548,8 @@ MonoBehaviour:
   survivalTime: 1.2
   dangerColour: {r: 1, g: 0.13333334, b: 0, a: 1}
   shape: {fileID: 1396294777}
+  volume: {fileID: 1669999124}
+  maxVignIntensity: 0.45
 --- !u!1 &1180819657
 GameObject:
   m_ObjectHideFlags: 0
