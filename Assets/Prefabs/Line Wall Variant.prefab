@@ -66,19 +66,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6716586955503421944, guid: 1fb0d3eac11584818a9070ecdb9f9942, type: 3}
       propertyPath: maxSize
-      value: 12
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6716586955503421944, guid: 1fb0d3eac11584818a9070ecdb9f9942, type: 3}
       propertyPath: minSize
-      value: 12
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6716586955503421944, guid: 1fb0d3eac11584818a9070ecdb9f9942, type: 3}
       propertyPath: maxYOffset
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6716586955503421944, guid: 1fb0d3eac11584818a9070ecdb9f9942, type: 3}
       propertyPath: minYOffset
-      value: 0
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 6716586955503421944, guid: 1fb0d3eac11584818a9070ecdb9f9942, type: 3}
       propertyPath: rotationFirst
