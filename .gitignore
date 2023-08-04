@@ -79,3 +79,6 @@ crashlytics-build.properties
 /Assets/Modern UI Pack
 
 /Builds_BurstDebugInformation_DoNotShip/
+
+# any file starting with "mono_crash"
+/[Mm]ono[Cc]rash.*
