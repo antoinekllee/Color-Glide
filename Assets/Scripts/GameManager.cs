@@ -178,7 +178,6 @@ public class GameManager : MonoBehaviour
         menuScoreText.text = score.ToString();
 
         score = 0; // reset score
-        inGameScoreText.text = score.ToString();
 
         menuPanel.SetActive(true);
         pauseButton.SetActive(false);
