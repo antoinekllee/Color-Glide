@@ -81,4 +81,6 @@ crashlytics-build.properties
 /Builds_BurstDebugInformation_DoNotShip/
 
 # any file starting with "mono_crash"
-/[Mm]ono[Cc]rash.*
+/mono_crash*
+
+.DS_Store

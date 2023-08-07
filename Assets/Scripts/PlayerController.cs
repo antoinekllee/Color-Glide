@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     [Header ("Colours")]
     [SerializeField, PositiveValueOnly] private float colourChangeTime = 0.1f;
     [SerializeField] private Ease colourChangeEase = Ease.InOutSine;
+    private bool canSwitchColour = false; 
 
     [Header ("Effects")]
     [SerializeField, MustBeAssigned] private ParticleSystem jetpackParticles = null;
@@ -75,25 +76,29 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             justTapped = true;
+
             startTouchPosition = Input.mousePosition;
+            canSwitchColour = true; 
+        }
+
+        if (canSwitchColour && Input.GetMouseButton(0))
+        {
+            if (Vector2.Distance(startTouchPosition, Input.mousePosition) > minSwipeDistance)
+            {
+                endTouchPosition = Input.mousePosition;
+                if (Vector2.Distance(startTouchPosition, endTouchPosition) > minSwipeDistance)
+                    CycleColour(); 
+
+                canSwitchColour = false;
+            }
         }
 
         if (Input.GetMouseButtonUp(0))
         {
-            endTouchPosition = Input.mousePosition;
-
             tapParticles?.Play();
-
-            if (Vector2.Distance(startTouchPosition, endTouchPosition) > minSwipeDistance)
-            {
-                CycleColour(); 
-            }
-            else
-            {
-                animator.SetTrigger ("tap");
-            }
+            animator.SetTrigger ("tap");
         }
-
+        
         // If Spacebar is pressed, change the color
         if (Input.GetKeyDown(KeyCode.Space))
         {
