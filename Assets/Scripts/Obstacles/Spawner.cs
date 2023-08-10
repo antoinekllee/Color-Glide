@@ -53,7 +53,11 @@ public class Spawner : MonoBehaviour
         {
             foreach (var variant in data.prefabVariants)
             {
-                var pool = new ObjectPool<Transform>(variant.transform);
+                var obstacleParent = new GameObject("Object_" + variant.name);
+                Transform child = Instantiate(variant).transform;
+                child.parent = obstacleParent.transform;
+                child.gameObject.SetActive(false);  // Deactivate child
+                var pool = new ObjectPool<Transform>(obstacleParent.transform);
                 obstaclePools[variant] = pool;
             }
         }
@@ -62,7 +66,6 @@ public class Spawner : MonoBehaviour
     private void Start ()
     {
         gameManager = FindObjectOfType<GameManager>();
-
         nextSpawnInterval = 0f;
     }
 
@@ -93,14 +96,16 @@ public class Spawner : MonoBehaviour
         int variantInex = Random.Range(0, data.prefabVariants.Length);
         
         GameObject prefab = data.prefabVariants[variantInex];
-        Transform obstacleTransform = new GameObject("Obstacle").transform;
+        Transform obstacleTransform = obstaclePools[prefab].Get();
+        obstacleTransform.gameObject.SetActive(true); // Ensure the object is active
+        obstacleTransform.gameObject.name = "Object_" + prefab.name; // Optional naming step
         obstacleTransform.position = spawnPoint.position;
-        obstacleTransform.parent = transform;
+        obstacleTransform.parent = transform;    
 
-        Transform obstacleVariantTransform = obstaclePools[prefab].Get();
+        // Get the child from the pooled parent and activate it
+        Transform obstacleVariantTransform = obstacleTransform.GetChild(0);
         obstacleVariantTransform.gameObject.SetActive(true);
         obstacleVariantTransform.position = obstacleTransform.position;
-        obstacleVariantTransform.parent = obstacleTransform;
 
         Obstacle obstacle = obstacleVariantTransform.GetComponent<Obstacle>();
 
@@ -111,20 +116,23 @@ public class Spawner : MonoBehaviour
             .SetEase(Ease.Linear)
             .OnComplete(() => 
             {
+                Debug.Log ("A");
+                Debug.Log (obstacleVariantTransform.gameObject.name);
                 activeObstacles.Remove(obstacleTransform);
                 obstacle.ResetParts();
-                ReturnToPool(prefab, obstacleVariantTransform);
+                ReturnToPool(prefab, obstacleTransform);
                 obstacleVariantTransform.gameObject.SetActive(false);
-                obstacleTransform.gameObject.SetActive(false); // Deactivate instead of Destroy
             });
 
         activeObstacles.Add(obstacleTransform);
         nextSpawnInterval = Random.Range(minSpawnInterval, maxSpawnInterval);
     }
 
-    private void ReturnToPool(GameObject prefab, Transform item)
+    private void ReturnToPool(GameObject prefab, Transform parentItem)
     {
-        obstaclePools[prefab].ReturnToPool(item);
+        Transform childObstacle = parentItem.GetChild(0);
+        childObstacle.gameObject.SetActive(false);
+        obstaclePools[prefab].ReturnToPool(parentItem);
     }
 
     public void OnGameOver()
@@ -133,21 +141,10 @@ public class Spawner : MonoBehaviour
         {
             obstacle.GetComponentInChildren<Collider2D>().enabled = false;
 
-            // DOTween.Kill(obstacle); // Kill all ongoing animations for the obstacle
-
             obstacle.DOMoveY(obstacle.position.y + destroyYOffset, dropDuration)
                 .SetDelay(dropDelay)
-                .SetEase(dropAnimationCurve); 
-                // .OnComplete(() => 
-                // {
-                //     GetComponent<Obstacle>().ResetParts();
-                //     Transform childObstacle = obstacle.GetChild(0);
-                //     Debug.Log ("B");
-                //     Debug.Log (childObstacle.gameObject.name);
-                //     ReturnToPool(childObstacle.gameObject, childObstacle);
-                //     childObstacle.gameObject.SetActive(false);
-                //     obstacle.gameObject.SetActive(false); 
-                // });
+                .SetEase(dropAnimationCurve);
+
         }
 
         activeObstacles.Clear();
