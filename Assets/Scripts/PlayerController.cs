@@ -37,6 +37,14 @@ public class PlayerController : MonoBehaviour
     [Space (8)]
     [SerializeField, MustBeAssigned] private ParticleSystem deathParticles = null;
     [SerializeField, MustBeAssigned] private ParticleSystem tapParticles = null; 
+    
+    [Header ("Sounds")]
+    [SerializeField, MustBeAssigned] private AudioSource tapSfx = null;
+    [Space (8)]
+    [SerializeField, MustBeAssigned] private AudioSource swapSfx = null;
+    [SerializeField, PositiveValueOnly] private float redPitch = 0.9f;
+    [SerializeField, PositiveValueOnly] private float greenPitch = 1f;
+    [SerializeField, PositiveValueOnly] private float bluePitch = 1.1f;
 
     [Header ("Resetting")]
     [SerializeField, PositiveValueOnly] private float resetDelay = 2f;
@@ -79,6 +87,12 @@ public class PlayerController : MonoBehaviour
 
             startTouchPosition = Input.mousePosition;
             canSwitchColour = true; 
+
+            tapParticles?.Play();
+            animator.SetTrigger ("tap");
+            // randomise tapSfx pitch
+            tapSfx.pitch = Random.Range(0.9f, 1.3f);
+            tapSfx?.Play();
         }
 
         if (canSwitchColour && Input.GetMouseButton(0))
@@ -91,12 +105,6 @@ public class PlayerController : MonoBehaviour
 
                 canSwitchColour = false;
             }
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            tapParticles?.Play();
-            animator.SetTrigger ("tap");
         }
         
         // If Spacebar is pressed, change the color
@@ -159,6 +167,22 @@ public class PlayerController : MonoBehaviour
         // update colour of tapParticles
         main = tapParticles.main;
         main.startColor = new ParticleSystem.MinMaxGradient(colour);
+
+        // update pitch of swapSfx
+        switch (objectColour)
+        {
+            case ObjectColour.Red:
+                swapSfx.pitch = redPitch;
+                break;
+            case ObjectColour.Green:
+                swapSfx.pitch = greenPitch;
+                break;
+            case ObjectColour.Blue:
+                swapSfx.pitch = bluePitch;
+                break;
+        }
+
+        swapSfx?.Play();
     }
 
     public void Die ()
