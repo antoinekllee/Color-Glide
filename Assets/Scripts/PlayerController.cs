@@ -81,29 +81,37 @@ public class PlayerController : MonoBehaviour
         if (gameManager.isGameOver)
             return;
 
-        if (Input.GetMouseButtonDown(0))
+        if (gameManager.justToggledPause)
         {
-            justTapped = true;
-
-            startTouchPosition = Input.mousePosition;
-            canSwitchColour = true; 
-
-            tapParticles?.Play();
-            animator.SetTrigger ("tap");
-            // randomise tapSfx pitch
-            tapSfx.pitch = Random.Range(0.9f, 1.3f);
-            tapSfx?.Play();
+            canSwitchColour = false;
+            gameManager.justToggledPause = false; 
         }
-
-        if (canSwitchColour && Input.GetMouseButton(0))
+        else 
         {
-            if (Vector2.Distance(startTouchPosition, Input.mousePosition) > minSwipeDistance)
+            if (Input.GetMouseButtonDown(0))
             {
-                endTouchPosition = Input.mousePosition;
-                if (Vector2.Distance(startTouchPosition, endTouchPosition) > minSwipeDistance)
-                    CycleColour(); 
+                justTapped = true;
 
-                canSwitchColour = false;
+                startTouchPosition = Input.mousePosition;
+                canSwitchColour = true; 
+
+                tapParticles?.Play();
+                animator.SetTrigger ("tap");
+                // randomise tapSfx pitch
+                tapSfx.pitch = Random.Range(0.9f, 1.3f);
+                tapSfx?.Play();
+            }
+
+            if (canSwitchColour && Input.GetMouseButton(0))
+            {
+                if (Vector2.Distance(startTouchPosition, Input.mousePosition) > minSwipeDistance)
+                {
+                    endTouchPosition = Input.mousePosition;
+                    if (Vector2.Distance(startTouchPosition, endTouchPosition) > minSwipeDistance)
+                        CycleColour(); 
+
+                    canSwitchColour = false;
+                }
             }
         }
         

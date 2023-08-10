@@ -58,12 +58,15 @@ public class GameManager : MonoBehaviour
     [SerializeField, PositiveValueOnly] private float pauseFadeDuration = 0.5f;
     [SerializeField] private Ease pauseFadeEase = Ease.InOutSine;
     private bool isPaused = false; 
+    [NonSerialized] public bool justToggledPause = false; 
+    private bool justUnpaused = false; 
 
     [Header ("Sounds")]
     [SerializeField] private AudioSource[] gameOverSfx = null;
     [SerializeField] private AudioSource[] scoreSfx = null; 
     [SerializeField, MustBeAssigned] private AudioSource levelUpSfx = null; 
     [SerializeField, MustBeAssigned] private AudioSource restartSfx = null; 
+    [SerializeField, MustBeAssigned] private AudioSource pauseSfx = null;
 
     private int highScore = 0;
     [NonSerialized] public int score = 0; 
@@ -168,7 +171,11 @@ public class GameManager : MonoBehaviour
         if (isPaused)
         {
             if (Input.GetMouseButtonDown(0))
+            {
                 PauseGame();
+                justUnpaused = true;
+                DOVirtual.DelayedCall(0.1f, () => justUnpaused = false, false);
+            }
 
             return;    
         }
@@ -234,7 +241,14 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame ()
     {
+        if (justUnpaused)
+        {
+            justUnpaused = false;
+            return;
+        }
+
         isPaused = !isPaused;
+        justToggledPause = true;
 
         if (isPaused)
         {
@@ -246,5 +260,7 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1f;
             pauseCanvasGroup.DOFade(0f, pauseFadeDuration).SetUpdate(true).SetEase(pauseFadeEase);
         }
+
+        pauseSfx?.Play();
     }
 }
