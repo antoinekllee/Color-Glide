@@ -4,6 +4,7 @@ using System;
 using DG.Tweening; 
 using MoreMountains.Feedbacks;
 using TMPro; 
+using Random = UnityEngine.Random; 
 
 public enum ObjectColour { Red, Green, Blue, Grey }
 
@@ -59,7 +60,10 @@ public class GameManager : MonoBehaviour
     private bool isPaused = false; 
 
     [Header ("Sounds")]
-    [SerializeField, MustBeAssigned] private AudioSource[] gameOverSfx = null;
+    [SerializeField] private AudioSource[] gameOverSfx = null;
+    [SerializeField] private AudioSource[] scoreSfx = null; 
+    [SerializeField, MustBeAssigned] private AudioSource levelUpSfx = null; 
+    [SerializeField, MustBeAssigned] private AudioSource restartSfx = null; 
 
     private int highScore = 0;
     [NonSerialized] public int score = 0; 
@@ -122,7 +126,12 @@ public class GameManager : MonoBehaviour
         else
             currStreak = 1;
 
-        spawner.CheckDifficulty();
+        bool levelUp = spawner.CheckDifficulty();
+        if (levelUp)
+            levelUpSfx?.Play();
+
+        for (int i = 0; i < scoreSfx.Length; i++)
+            scoreSfx[i].Play();
 
         streakTimer -= streakTimer; // reset timer
     }
@@ -149,6 +158,8 @@ public class GameManager : MonoBehaviour
                 pauseButton.SetActive(true);
                 playerController.StartGame();
                 inGameScoreText.text = "0";
+                restartSfx?.Play();
+                restartSfx.DOFade(0f, 2f);
             }
 
             return; 
@@ -197,7 +208,10 @@ public class GameManager : MonoBehaviour
         DOVirtual.DelayedCall(restartCooldown, () => canRestart = true, false);
 
         for (int i = 0; i < gameOverSfx.Length; i++)
+        {
+            gameOverSfx[i].pitch = Random.Range(0.9f, 1.1f);
             gameOverSfx[i].Play();
+        }
 
         isGameOver = true; 
     }

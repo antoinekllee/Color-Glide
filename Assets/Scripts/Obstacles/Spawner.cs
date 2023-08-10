@@ -118,7 +118,7 @@ public class Spawner : MonoBehaviour
         activeObstacles.Clear();
     }
 
-    public void CheckDifficulty ()
+    public bool CheckDifficulty ()
     {
         // Every 10 points (or if score ends in a 0), increase difficulty
         if (gameManager.score % 10 == 0 && gameManager.score != 0)
@@ -132,6 +132,10 @@ public class Spawner : MonoBehaviour
             }
 
             gameManager.SpawnFloatingText("Level up!");
+
+            return true;
         }
+
+        return false;
     }
 }
