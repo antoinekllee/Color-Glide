@@ -58,6 +58,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Ease pauseFadeEase = Ease.InOutSine;
     private bool isPaused = false; 
 
+    [Header ("Sounds")]
+    [SerializeField, MustBeAssigned] private AudioSource[] gameOverSfx = null;
+
     private int highScore = 0;
     [NonSerialized] public int score = 0; 
 
@@ -192,6 +195,9 @@ public class GameManager : MonoBehaviour
 
         canRestart = false;
         DOVirtual.DelayedCall(restartCooldown, () => canRestart = true, false);
+
+        for (int i = 0; i < gameOverSfx.Length; i++)
+            gameOverSfx[i].Play();
 
         isGameOver = true; 
     }

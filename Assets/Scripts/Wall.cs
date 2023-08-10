@@ -27,6 +27,9 @@ public class Wall : MonoBehaviour
     [SerializeField] private Ease resetEase = Ease.InOutSine;
     private bool isReset = false; 
 
+    [Header ("Sound")]
+    [SerializeField] private AudioSource sfx = null;
+
     private void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
@@ -45,6 +48,8 @@ public class Wall : MonoBehaviour
         if (!other.gameObject.CompareTag("Player"))
             return;
 
+        sfx.Play();
+
         isReset = false; 
         isTouching = true;
     }
@@ -53,6 +58,8 @@ public class Wall : MonoBehaviour
     {
         if (!other.gameObject.CompareTag("Player"))
             return;
+
+        sfx.Stop();
 
         isTouching = false;
     }
