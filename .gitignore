@@ -87,3 +87,5 @@ crashlytics-build.properties
 
 /Assets/Audio/BGM/*
 /Assets/Audio/SFX/*
+
+.vscode/
