@@ -45,6 +45,20 @@ public class Spawner : MonoBehaviour
 
     private GameManager gameManager = null; 
 
+    private Dictionary<GameObject, ObjectPool<Transform>> obstaclePools = new Dictionary<GameObject, ObjectPool<Transform>>();
+
+    private void Awake()
+    {
+        foreach (var data in obstacleData)
+        {
+            foreach (var variant in data.prefabVariants)
+            {
+                var pool = new ObjectPool<Transform>(variant.transform);
+                obstaclePools[variant] = pool;
+            }
+        }
+    }
+
     private void Start ()
     {
         gameManager = FindObjectOfType<GameManager>();
@@ -77,27 +91,37 @@ public class Spawner : MonoBehaviour
         ObstacleData data = obstacleData[index];
         lastWasBigObstacle = data.isBigObstacle;
         int variantInex = Random.Range(0, data.prefabVariants.Length);
-        GameObject prefab = data.prefabVariants[variantInex];
-
-        // Create empty parent object to translate right to left
-        Transform obstacleTransform = Instantiate(new GameObject("Obstacle"), spawnPoint.position, Quaternion.identity, transform).transform;
-        // Create obstacle as child of parent object so it can rotate locally
-        Instantiate(prefab, obstacleTransform.position, Quaternion.identity, obstacleTransform);
         
-        float scrollSpeed = Random.Range(minScrollSpeed, maxScrollSpeed);
+        GameObject prefab = data.prefabVariants[variantInex];
+        Transform obstacleTransform = new GameObject("Obstacle").transform;
+        obstacleTransform.position = spawnPoint.position;
+        obstacleTransform.parent = transform;
 
+        Transform obstacleVariantTransform = obstaclePools[prefab].Get();
+        obstacleVariantTransform.gameObject.SetActive(true);
+        obstacleVariantTransform.position = obstacleTransform.position;
+        obstacleVariantTransform.parent = obstacleTransform;
+
+        float scrollSpeed = Random.Range(minScrollSpeed, maxScrollSpeed);
+            
         obstacleTransform.DOMoveX(destroyPoint.position.x, scrollSpeed)
             .SetSpeedBased(true)
             .SetEase(Ease.Linear)
             .OnComplete(() => 
             {
                 activeObstacles.Remove(obstacleTransform);
-                Destroy(obstacleTransform.gameObject);
+                ReturnToPool(prefab, obstacleVariantTransform);
+                obstacleVariantTransform.gameObject.SetActive(false);
+                obstacleTransform.gameObject.SetActive(false); // Deactivate instead of Destroy
             });
 
         activeObstacles.Add(obstacleTransform);
-
         nextSpawnInterval = Random.Range(minSpawnInterval, maxSpawnInterval);
+    }
+
+    private void ReturnToPool(GameObject prefab, Transform item)
+    {
+        obstaclePools[prefab].ReturnToPool(item);
     }
 
     public void OnGameOver ()
@@ -110,9 +134,14 @@ public class Spawner : MonoBehaviour
 
             obstacle.DOMoveY(obstacle.position.y + destroyYOffset, dropDuration)
                 .SetDelay(dropDelay)
-                // .SetSpeedBased(true)
                 .SetEase(dropAnimationCurve)
-                .OnComplete(() => Destroy(obstacle.gameObject));
+                .OnComplete(() => 
+                {
+                    Transform childObstacle = obstacle.GetChild(0);
+                    ReturnToPool(childObstacle.gameObject, childObstacle);
+                    childObstacle.gameObject.SetActive(false);
+                    obstacle.gameObject.SetActive(false); // Deactivate instead of Destroy
+                });
         }
 
         activeObstacles.Clear();
