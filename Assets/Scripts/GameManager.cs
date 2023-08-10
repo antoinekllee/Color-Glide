@@ -162,7 +162,13 @@ public class GameManager : MonoBehaviour
                 playerController.StartGame();
                 inGameScoreText.text = "0";
                 restartSfx?.Play();
-                restartSfx.DOFade(0f, 2f);
+                float originalVolume = restartSfx.volume;
+                restartSfx.DOFade(0f, 2f)
+                    .OnComplete (() => 
+                    {
+                        restartSfx.Stop();
+                        restartSfx.volume = originalVolume;
+                    });
             }
 
             return; 

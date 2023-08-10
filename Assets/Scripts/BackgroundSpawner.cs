@@ -4,6 +4,7 @@ using Shapes;
 using MyBox;
 using Random = UnityEngine.Random; 
 using DG.Tweening;
+using System.Collections.Generic;
 
 [Serializable]
 public class BackgroundShape
@@ -36,6 +37,17 @@ public class BackgroundSpawner : MonoBehaviour
     [SerializeField, PositiveValueOnly] private float maxSpawnInterval = 1.5f;
     private float spawnInterval = 0f;
     private float spawnTimer = 0f;
+
+    private Dictionary<GameObject, ObjectPool<Transform>> shapePools = new Dictionary<GameObject, ObjectPool<Transform>>();
+
+    private void Awake()
+    {
+        foreach (var shape in shapes)
+        {
+            var pool = new ObjectPool<Transform>(shape.prefab.transform);
+            shapePools[shape.prefab] = pool;
+        }
+    }
 
     private void Start ()
     {
@@ -93,7 +105,10 @@ public class BackgroundSpawner : MonoBehaviour
 
         Quaternion rotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
 
-        Transform shapeTransform = Instantiate(shapeToSpawn.prefab, spawnPos, rotation, transform).transform;
+        // Transform shapeTransform = Instantiate(shapeToSpawn.prefab, spawnPos, rotation, transform).transform;
+        Transform shapeTransform = shapePools[shapeToSpawn.prefab].Get();
+        shapeTransform.gameObject.SetActive(true);
+        shapeTransform.position = spawnPos;
 
         float rotateSpeed = Random.Range(minRotateSpeed, maxRotateSpeed);
         bool rotateClockwise = Random.Range(0, 2) == 0;
@@ -103,8 +118,18 @@ public class BackgroundSpawner : MonoBehaviour
         shapeTransform.localScale = Vector3.one * size;
 
         float speed = Random.Range(minSpeed, maxSpeed);
+        // shapeTransform.DOMoveX(-spawnX, speed).SetEase(Ease.Linear)
+        //     .SetSpeedBased(true)
+        //     .OnComplete(() => Destroy(shapeTransform.gameObject));
+        //     .OnComplete(() => ReturnToPool(shapeToSpawn.prefab, shapeTransform));
+
         shapeTransform.DOMoveX(-spawnX, speed).SetEase(Ease.Linear)
             .SetSpeedBased(true)
-            .OnComplete(() => Destroy(shapeTransform.gameObject));
+            .OnComplete(() => ReturnToPool(shapeToSpawn.prefab, shapeTransform));
+    }
+
+    private void ReturnToPool(GameObject prefab, Transform item)
+    {
+        shapePools[prefab].ReturnToPool(item);
     }
 }
