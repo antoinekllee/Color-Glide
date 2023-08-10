@@ -63,4 +63,16 @@ public class ObstaclePart : MonoBehaviour
             }
         }
     }
+
+    public void ResetPart()
+    {
+        collider.enabled = true;
+
+        Color colour = gameManager.GetColour(obstacleColour);
+        shape.Color = colour;
+
+        // get the id of sorting layer called "Obstacle"
+        int sortingLayerID = SortingLayer.NameToID("Obstacle");
+        shape.SortingLayerID = sortingLayerID;
+    }
 }

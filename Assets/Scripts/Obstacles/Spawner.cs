@@ -102,6 +102,8 @@ public class Spawner : MonoBehaviour
         obstacleVariantTransform.position = obstacleTransform.position;
         obstacleVariantTransform.parent = obstacleTransform;
 
+        Obstacle obstacle = obstacleVariantTransform.GetComponent<Obstacle>();
+
         float scrollSpeed = Random.Range(minScrollSpeed, maxScrollSpeed);
             
         obstacleTransform.DOMoveX(destroyPoint.position.x, scrollSpeed)
@@ -110,6 +112,7 @@ public class Spawner : MonoBehaviour
             .OnComplete(() => 
             {
                 activeObstacles.Remove(obstacleTransform);
+                obstacle.ResetParts();
                 ReturnToPool(prefab, obstacleVariantTransform);
                 obstacleVariantTransform.gameObject.SetActive(false);
                 obstacleTransform.gameObject.SetActive(false); // Deactivate instead of Destroy
@@ -124,24 +127,27 @@ public class Spawner : MonoBehaviour
         obstaclePools[prefab].ReturnToPool(item);
     }
 
-    public void OnGameOver ()
+    public void OnGameOver()
     {
         foreach (Transform obstacle in activeObstacles)
         {
             obstacle.GetComponentInChildren<Collider2D>().enabled = false;
 
-            DOTween.Kill(obstacle);
+            // DOTween.Kill(obstacle); // Kill all ongoing animations for the obstacle
 
             obstacle.DOMoveY(obstacle.position.y + destroyYOffset, dropDuration)
                 .SetDelay(dropDelay)
-                .SetEase(dropAnimationCurve)
-                .OnComplete(() => 
-                {
-                    Transform childObstacle = obstacle.GetChild(0);
-                    ReturnToPool(childObstacle.gameObject, childObstacle);
-                    childObstacle.gameObject.SetActive(false);
-                    obstacle.gameObject.SetActive(false); // Deactivate instead of Destroy
-                });
+                .SetEase(dropAnimationCurve); 
+                // .OnComplete(() => 
+                // {
+                //     GetComponent<Obstacle>().ResetParts();
+                //     Transform childObstacle = obstacle.GetChild(0);
+                //     Debug.Log ("B");
+                //     Debug.Log (childObstacle.gameObject.name);
+                //     ReturnToPool(childObstacle.gameObject, childObstacle);
+                //     childObstacle.gameObject.SetActive(false);
+                //     obstacle.gameObject.SetActive(false); 
+                // });
         }
 
         activeObstacles.Clear();

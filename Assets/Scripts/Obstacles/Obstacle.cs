@@ -63,4 +63,12 @@ public class Obstacle : MonoBehaviour
         // if (shouldMove)
         //     transform.Translate(Vector2.left * moveSpeed * Time.deltaTime);
     }
+
+    public void ResetParts()
+    {
+        for (int i = 0; i < parts.Length; i++)
+        {
+            parts[i].ResetPart();
+        }
+    }
 }
