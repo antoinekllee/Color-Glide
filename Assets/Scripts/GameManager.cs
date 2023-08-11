@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
 
     [Header ("Pausing")]
     [SerializeField, MustBeAssigned] private CanvasGroup pauseCanvasGroup = null;
+    [SerializeField, MustBeAssigned] private CanvasGroup tutorialCanvasGroup = null;
     [SerializeField, MustBeAssigned] private GameObject pauseButton = null; 
     [Space (8)]
     [SerializeField, PositiveValueOnly] private float pauseFadeDuration = 0.5f;
@@ -60,6 +61,7 @@ public class GameManager : MonoBehaviour
     private bool isPaused = false; 
     [NonSerialized] public bool justToggledPause = false; 
     private bool justUnpaused = false; 
+    private bool wasTutorial = false;
 
     [Header ("Sounds")]
     [SerializeField] private AudioSource[] gameOverSfx = null;
@@ -88,6 +90,8 @@ public class GameManager : MonoBehaviour
         inGameScoresPanel.SetActive(false);
 
         DOVirtual.DelayedCall(restartCooldown, () => canRestart = true, false);
+
+        pauseButton.SetActive(false); 
 
         LoadHighScore();
     }
@@ -178,7 +182,7 @@ public class GameManager : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                PauseGame();
+                PauseGame(wasTutorial);
                 justUnpaused = true;
                 DOVirtual.DelayedCall(0.1f, () => justUnpaused = false, false);
             }
@@ -245,7 +249,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void PauseGame ()
+    public void PauseGame (bool isTutorial)
     {
         if (justUnpaused)
         {
@@ -258,13 +262,21 @@ public class GameManager : MonoBehaviour
 
         if (isPaused)
         {
+            wasTutorial = isTutorial; 
+            
             Time.timeScale = 0f;
-            pauseCanvasGroup.DOFade(1f, pauseFadeDuration).SetUpdate(true).SetEase(pauseFadeEase);
+            if (!isTutorial)
+                pauseCanvasGroup.DOFade(1f, pauseFadeDuration).SetUpdate(true).SetEase(pauseFadeEase);
+            else
+                tutorialCanvasGroup.DOFade(1f, pauseFadeDuration).SetUpdate(true).SetEase(pauseFadeEase);
         }
         else
         {
             Time.timeScale = 1f;
-            pauseCanvasGroup.DOFade(0f, pauseFadeDuration).SetUpdate(true).SetEase(pauseFadeEase);
+            if (!isTutorial)
+                pauseCanvasGroup.DOFade(0f, pauseFadeDuration).SetUpdate(true).SetEase(pauseFadeEase);
+            else
+                tutorialCanvasGroup.DOFade(0f, pauseFadeDuration).SetUpdate(true).SetEase(pauseFadeEase);
         }
 
         pauseSfx?.Play();

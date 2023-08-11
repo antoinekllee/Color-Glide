@@ -116,8 +116,6 @@ public class Spawner : MonoBehaviour
             .SetEase(Ease.Linear)
             .OnComplete(() => 
             {
-                Debug.Log ("A");
-                Debug.Log (obstacleVariantTransform.gameObject.name);
                 activeObstacles.Remove(obstacleTransform);
                 obstacle.ResetParts();
                 ReturnToPool(prefab, obstacleTransform);
