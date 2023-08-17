@@ -118,6 +118,17 @@ public class PlayerController : MonoBehaviour
         // If Spacebar is pressed, change the color
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            justTapped = true;
+
+            startTouchPosition = Input.mousePosition;
+            canSwitchColour = true; 
+
+            tapParticles?.Play();
+            animator.SetTrigger ("tap");
+            // randomise tapSfx pitch
+            tapSfx.pitch = Random.Range(0.9f, 1.3f);
+            tapSfx?.Play();
+            
             CycleColour();
         }
     }

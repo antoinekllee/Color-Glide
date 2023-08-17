@@ -5,12 +5,14 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/IronSource/DemoScene/IronSourceDemo.unity
     guid: ccc0ac08126704384bdda74c26d99797
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Main.unity
     guid: 3fc8acdd13e6c734bafef6554d6fdbcd
   m_configObjects:
+    com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: 7e2f0044f8f22453d8315f50f6865436, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 6f0dc9fb3ed3d4191a113235c0b50265, type: 2}
+    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: 1f66b7a8174434c2eb2932f22c0a2b08, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 8814d22f2dc3f47ef8bf371b96276b49, type: 2}
